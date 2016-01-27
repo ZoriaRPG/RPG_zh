@@ -1,0 +1,28 @@
+const int MAPCOUNT = 100;
+const int SCREENSPERMAP = 131;
+
+void WipeScreen(int map, int screen, bool value){
+	for ( int q = 0; q < 14; q++ ) {
+		Game->SetScreenState(map, screen, q, value);
+	}
+}
+
+void WipeScreens(int value){
+	for ( int w = MAPCOUNT; w > 0; w -- ) {
+		for ( int e = SCREENSPERMAP; e > 0; e-- ) {
+			WipeScreen(w,e,value);
+		}
+	}
+}
+
+
+void WipeScreens(){
+	for ( int w = MAPCOUNT; w > 0; w -- ) {
+		for ( int e = SCREENSPERMAP; e > 0; e-- ) {
+			WipeScreen(w,e,false);
+		}
+	}
+}
+
+
+SetScreenState(int map, int screen, int flag, bool value);

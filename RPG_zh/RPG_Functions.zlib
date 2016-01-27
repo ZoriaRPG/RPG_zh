@@ -1,0 +1,125 @@
+//Main Functions
+//v0.3 for RPG.zh v0.96.9/2
+
+//Call any of these, using a constant, to read from one of the main arrays.
+
+//Returns from GameEvents[]
+bool Is(int event){
+	return GameEvents[event];
+}
+
+void Is(int event, bool setting){
+	GameEvents[event] = setting;
+}
+
+//Owns() should be here, and is in another .zlib
+//bool Owns(int itm){
+//	return OwnsItems[itm];
+//}
+
+bool Owns(int itm, int val){
+	OwnsItems[itm] = val;
+}
+
+//Returns from GameEvents[]
+bool Event(int event){
+	return GameEvents[event];
+}
+
+void Event(int event, bool setting){
+	GameEvents[event] = setting;
+}
+
+
+//Returns from GameDynamics[]
+int Val(int var){
+	return GameDynamics[var];
+}
+
+int Var(int var, int value){
+	GameDynamics[var] = value;
+}
+
+int Var(int var){
+	return GameDynamics[var];
+}
+
+int Val(int var, int value){
+	GameDynamics[var] = value;
+}
+
+int Set(int var, int value){
+	GameDynamics[var] = value;
+}
+
+int SetB(int var, bool value){
+	GameEvents[var] = value;
+}
+
+
+void ReportFunctionEnd(){
+	TraceNL();
+	TraceS(stringEndFunction);
+	TraceNL();
+}
+
+void DrawCounter(int x, int y, int colour, int size, int font, int useCounter){
+	int val = Game->Counter[useCounter];
+	if ( size == 0 ) {
+		size = 16;
+	}
+	if ( font == 0 ) {
+		font = 16;
+	}
+	Screen->DrawInteger(7, x, y, size, colour, -1, size, size, val, 0, 100);
+}
+
+void DrawCounter(int x, int y, int colour, int size, int font, int arr, int index){
+	int val = arr[index];
+	if ( size == 0 ) {
+		size = 16;
+	}
+	if ( font == 0 ) {
+		font = 16;
+	}
+	Screen->DrawInteger(7, x, y, size, colour, -1, size, size, val, 0, 100);
+}
+
+int FreeFFC(){
+	ffc f;
+	for( int q = 1; q <= 32; q++ ){
+		f = Screen->LoadFFC(q);
+		if( f->Data == 0 ){
+			return q;
+		}	
+	} 
+	return 0;
+}
+
+int FreeFFC(int max){
+	ffc f;
+	for( int q = 1; q <= 32; q++ ){
+		f = Screen->LoadFFC(q);
+		if( f->Data == 0 && q <= max ){
+			return q;
+		}	
+	} 
+	return 0;
+}
+
+int FreeFFC(int min, int max){
+	ffc f;
+	for( int q = 1; q <= 32; q++ ){
+		f = Screen->LoadFFC(q);
+		if( f->Data == 0 && q >= min && q <= max ){
+			return q;
+		}	
+	} 
+	return 0;
+}
+
+bool PressedAnyActionButton(){
+    if ( Link->PressA || Link->PressB || Link->PressR || Link->PressL || Link->PressEx1 || Link->PressEx2 || Link->PressEx3 || Link->PressEx4 ){
+        return true;
+    }
+}
