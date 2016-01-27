@@ -305,3 +305,24 @@ int makeSavingThrow(int type, int minDamage, int maxDamage, bool damageStat, int
     else {
     }
 }
+
+/// CURSES ///
+
+///Increase Magic Costs
+///This would only work in the item editor panel. 
+//I need to go through, in every script that uses magic, and multiply the MP cost as follows:
+// cost = MP * Game->Generic[GEN_MAGICDRAINRATE]
+
+void SetMagicCost(int amount){
+	Game->Generic[GEN_MAGICDRAINRATE] = amount;
+}
+
+void IncreaseMagicCost(){
+	Game->Generic[GEN_MAGICDRAINRATE]++;
+}
+
+void DecreaseMagicCost(){
+	Game->Generic[GEN_MAGICDRAINRATE]--;
+}
+
+

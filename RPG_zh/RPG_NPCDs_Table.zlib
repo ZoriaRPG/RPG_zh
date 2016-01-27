@@ -1,4 +1,6 @@
-int EnemyNPCD_Table[2560]={	0,0,0,0,0,0,0,0,0,0,	//Enemy ID 000
+//This is set to 265 enemies, but ZQ has 512. We need to expand this...
+
+int EnemyNPCD_Table[5120]={	0,0,0,0,0,0,0,0,0,0,	//Enemy ID 000
 				0,0,0,0,0,0,0,0,0,0,	//Enemy ID 001
 				0,0,0,0,0,0,0,0,0,0,	//Enemy ID 002
 				0,0,0,0,0,0,0,0,0,0,	//Enemy ID 003

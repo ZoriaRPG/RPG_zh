@@ -1,5 +1,5 @@
 /// RPG Items
-//v0.5 for RPG.ZH v0.97
+//v0.5.2 for RPG.ZH v0.97.7
 
 
 // Constants
@@ -314,10 +314,10 @@ item script timerItem {
 //Drags keys back to Link, if touched by a boomerang, or hookshot.  Call every frame before Waitdraw();
 
 void BrangKey(){
-	for ( int q = 0; q <= Screen->NumLWeapons(); q++ ){
+	for ( int q = 1; q <= Screen->NumLWeapons(); q++ ){
 		lweapon w = Screen->LoadLWeapon(q);
 		if ( w->ID == LW_BRANG || w->ID == LW_HOOKSHOT ) {
-			for ( int e = 0; e <= Screen->NumItems(); e ++ ) {
+			for ( int e = 1; e <= Screen->NumItems(); e ++ ) {
 				item a = Screen->LoadItem(e);
 				if ( Collision (w,a) ) {
 					if ( a->ID == I_KEY ) {
@@ -354,10 +354,10 @@ void BrangKey(){
 
 
 void BrangKey(bool instantaneous){ //instantly gives Link the item.
-	for ( int q = 0; q <= Screen->NumLWeapons(); q++ ){
+	for ( int q = 1; q <= Screen->NumLWeapons(); q++ ){
 		lweapon w = Screen->LoadLWeapon(q);
 		if ( w->ID == LW_BRANG || w->ID == LW_HOOKSHOT ) {
-			for ( int e = 0; e <= Screen->NumItems(); e ++ ) {
+			for ( int e = 1; e <= Screen->NumItems(); e ++ ) {
 				item a = Screen->LoadItem(e);
 				if ( Collision (w,a) ) {
 					if ( a->ID == I_KEY ) {
@@ -414,10 +414,10 @@ void BrangKey(bool instantaneous){ //instantly gives Link the item.
 
 //Drags keys, or anything on specified array of items back to link if touched by a boomerang, or hookshot.
 void BrangKey(int list){
-	for ( int q = 0; q <= Screen->NumLWeapons(); q++ ){
+	for ( int q = 1; q <= Screen->NumLWeapons(); q++ ){
 		lweapon w = Screen->LoadLWeapon(q);
 		if ( w->ID == LW_BRANG || w->ID == LW_HOOKSHOT ) {
-			for ( int e = 0; e <= Screen->NumItems(); e ++ ) {
+			for ( int e = 1; e <= Screen->NumItems(); e ++ ) {
 				item a = Screen->LoadItem(e);
 				if ( Collision (w,a) ) {
 					if ( a->ID == I_KEY ) {
@@ -468,10 +468,10 @@ void BrangKey(int list){
 
 //Drags keys, or anything on specified array of items back to link if touched by a boomerang, or hookshot.
 void BrangKey(int list, bool instantaneous){
-	for ( int q = 0; q <= Screen->NumLWeapons(); q++ ){
+	for ( int q = 1; q <= Screen->NumLWeapons(); q++ ){
 		lweapon w = Screen->LoadLWeapon(q);
 		if ( w->ID == LW_BRANG || w->ID == LW_HOOKSHOT ) {
-			for ( int e = 0; e <= Screen->NumItems(); e ++ ) {
+			for ( int e = 1; e <= Screen->NumItems(); e ++ ) {
 				item a = Screen->LoadItem(e);
 				if ( Collision (w,a) ) {
 					if ( a->ID == I_KEY ) {
@@ -548,10 +548,10 @@ void BrangKey(int list, bool instantaneous){
 }
 
 void BrangKey(bool instantaneous, bool holdUpItem){ //instantly gives Link the item.
-	for ( int q = 0; q <= Screen->NumLWeapons(); q++ ){
+	for ( int q = 1; q <= Screen->NumLWeapons(); q++ ){
 		lweapon w = Screen->LoadLWeapon(q);
 		if ( w->ID == LW_BRANG || w->ID == LW_HOOKSHOT ) {
-			for ( int e = 0; e <= Screen->NumItems(); e ++ ) {
+			for ( int e = 1; e <= Screen->NumItems(); e ++ ) {
 				item a = Screen->LoadItem(e);
 				if ( Collision (w,a) ) {
 					if ( a->ID == I_KEY ) {
@@ -635,10 +635,10 @@ void BrangKey(bool instantaneous, bool holdUpItem){ //instantly gives Link the i
 
 //Drags keys, or anything on specified array of items back to link if touched by a boomerang, or hookshot.
 void BrangKey(int list, bool instantaneous, bool holdUpItem){
-	for ( int q = 0; q <= Screen->NumLWeapons(); q++ ){
+	for ( int q = 1; q <= Screen->NumLWeapons(); q++ ){
 		lweapon w = Screen->LoadLWeapon(q);
 		if ( w->ID == LW_BRANG || w->ID == LW_HOOKSHOT ) {
-			for ( int e = 0; e <= Screen->NumItems(); e ++ ) {
+			for ( int e = 1; e <= Screen->NumItems(); e ++ ) {
 				item a = Screen->LoadItem(e);
 				if ( Collision (w,a) ) {
 					if ( a->ID == I_KEY ) {
@@ -791,11 +791,11 @@ int ItemsToPickup[]={	I_ARROWAMMO1, I_ARROWAMMO5, I_ARROWAMMO10, I_ARROWAMMO30, 
 
 //This function collects items of types stored in array itemList, with any weapon that has an LType specified in the array pickUpWith.
 void ItemRetrieval(int itemList, int pickUpWith, bool instantaneous, bool holdUpItem, bool killWeapon, bool includingBounceLWs ){
-	for ( int q = 0; q <= Screen->NumLWeapons(); q++ ){
+	for ( int q = 1; q <= Screen->NumLWeapons(); q++ ){
 		lweapon w = Screen->LoadLWeapon(q);
 		for ( int it = 0; it <= SizeOfArray(pickUpWith); it++ ){
 			if ( w->ID == pickUpWith[it] ) {
-				for ( int e = 0; e <= Screen->NumItems(); e ++ ) {
+				for ( int e = 1; e <= Screen->NumItems(); e ++ ) {
 					item a = Screen->LoadItem(e);
 					for ( int s = 0; s <= SizeOfArray(itemList); s ++ ) {
 						if ( a->ID == itemList[s] ) {
@@ -1025,4 +1025,18 @@ void UseItemOnA(int input){
 bool SetCheckItemA(int it){
 	SetItemA(it);
 	return GetEquipmentA() == it;
+}
+
+void NayrusLove(int level, int durBase, int castingStat){
+	itemdata nayru = Game->LoadItemData(I_NAYRU);
+	if ( nayru->Power < ( level * durBase ) + castingStat ) {
+		ModItemPower(I_NAYRU, ( level * durBase ) + castingStat ) );
+	}
+}
+
+void ScaleItemPower(int itm, int level, int durBase, int castingStat){
+	itemdata it = Game->LoadItemData(itm);
+	if ( it->Power < ( level * durBase ) + castingStat ) {
+		ModItemPower(itm, ( level * durBase ) + castingStat ) );
+	}
 }

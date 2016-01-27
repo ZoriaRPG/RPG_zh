@@ -1,4 +1,4 @@
-//v2.1.1
+//v2.1.2
 
 const int SCRIPTED_NPCD_FIELDS = 10;
 
@@ -214,8 +214,45 @@ void ChangeDefTable(int enemy, int defLType, int defType){
 //* Changes one defense flag on a single enemy, to LW type fedLType and def type defType
 //* Ex: changeDefTable(ICE_DARKNUT, LW_HEAT, ONEHITKILL); */
 
+float NPCD_Table[51200]; //512 enemies, ten types each. 
+float ScriptNPCDs[2560]; //256 enemies on the screen, ten types each
 
+//Load defs into an enemy on the screen, where enemy_id is the n-<ID, and 'n' is the nth enemy on the screen.
+void LoadNPCDs(int enemy_id, int n){
+	//int defs[10];
+	for ( int q = 0; q <= 10; q++ ) {
+		ScriptNPCDs[q*10] = NPCD_Table[n*10];
+	}
+}
 
+const int NPCD_FLAGS = 14;
+
+void StoreNPCDFlags(npc n, int ptr){
+	float flags;
+	int npc_id = n->ID;
+	//Store the values of each of the ten indixes as a digit of flags 00000.0000
+	
+	
+	n->Misc[NPCD_FLAGS] = flags; //Store them.
+}
+
+int ReadNPCD_Flag(int npcd){
+	
+}
+
+//! No, a 1/0 value won;t work here. We need to rely on the arrays directly, for read/write, instead of npc->Misc[].
+//! Even if we only had 8 types, we would have issues, unless we use two Misc[] indices for this. 
+
+	
+//Assign NPCD flags to an enemy's Misc array
+	
+	
+const int FLAG_NPCD_
+	
+const int FLAG_NPCDT_
+	
+//use the digit of two misc values to hold 1/0 as flags? Requires ten places. 
+	//if we only use nine types, then we can use one index. 
 	
 ////////////////////////
 /// Reference Charts ///
@@ -259,3 +296,10 @@ void ChangeDefTable(int enemy, int defLType, int defType){
 /// NPCDT_ONEHITKILL		= 14; //Enemy dies ON COLLISION.
 
 //import "/RPG_zh/RPG_NPCDs_Table.zlib"
+
+
+//On collision with a script type weapon, read the enemy ID, and the script type.
+//Then store that value for this frame, by changing the NPC's Script Def to the type defined int he array, for this enemy and weapon type. 
+void ConvertScriptDefense(npc n){
+	
+}

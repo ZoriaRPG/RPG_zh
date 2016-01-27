@@ -1,9 +1,48 @@
 //Player Functions
-//v0.3
+//v0.4.1 for RPG.zh v0.97.3
+
+//lweapon Player; //Declare in global active script to use as player sprite pointer. 
+
+
+
+int HurtSFX[]={110,135,136,137,138,139,140,141}; //Sound effects to play when Link is hurt by something.
+
+
+void StoreHP(){ //Call in global script init, and global script OnContinue
+	Val(CURRENT_HP,Link->HP);
+	Val(LAST_HP,Link->HP);
+	Is(LINK_HURT,false);
+}
+
+     
+
+void UpdateHP(){ //Call Every Frame
+	if ( Link->HP != Val(CURRENT_HP) ){
+		Val(CURRENT_HP,Link->HP);
+	}
+}
+
+
+void LinkDamaged(){ //Call every frame.
+	if ( Val(CURRENT_HP) < Val(LAST_HP) ){
+		Is(LINK_HURT,true);
+		Val(LAST_HP,Val(CURRENT_HP));
+	}
+}
+
+void HurtSound(){
+	if ( ( Link->Action == LA_GOTHURTLAND || Link->Action == LA_GOTHURTWATER ) && Is(LINK_HURT) ){
+		Is(LINK_HURT,false);
+		int HurtSound = HurtSFX[Rand(1,SizeOfArray(HurtSFX))];
+		Game->PlaySound(HurtSound);
+	}
+}
 
 //Hunger and Thirst
 
 //Resurrection
+
+
 
 void Resurrect(int lifeCount) {
 	if ( Link->HP <= 0 ) Link->HP = lifeCount;
@@ -146,3 +185,34 @@ ffc script ItemFlower{
 	}
 }
 		
+
+
+//This function will draw Link to higher layers.
+// ! Note: It will not check for collision, or solidity on those layers. 
+// ! You will need to use LinkLayerCollision() and LinkLayerSolidity() for that.
+
+void DrawLinkToLayer(int layer, bool transparency, int opacity){
+	int x = Link->X;
+	int y = Link->Y;
+	int tile = Link->Tile;
+	int blockw = 1;
+	int blockh = 1;
+	int cset = Link->CSet;
+	int xscale = -1;
+	int yscale = -1;
+	int rx = 0;
+	int ry = 0;
+	int rangle = 0;
+	int flip = Link->Flip;
+	Screen->DrawTile(layer, x, y, tile, blockw, blockh, cset, xscale, yscale, rx, ry, rangle, flip, transparency, opacity);
+}
+
+//Check for collision on higher layers.
+bool LinkLayerCollision(int layer){
+	
+}
+
+//Check for combo solidity on higher layers.
+bool LinkLayerSolidity(int layer){
+	
+}

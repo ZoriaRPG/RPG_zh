@@ -1,4 +1,4 @@
-/// FFCs v0.2 for RPG.zh v0.9.6.4
+/// FFCs v0.2.1 for RPG.zh v0.9.6.47
 
 // Constants
 
@@ -11,6 +11,70 @@
 /////////////////////
 /// FFC Functions ///
 /////////////////////
+
+
+void KillFFC(int slot){
+	int thisFFC;
+	ffc f;
+	for( int i = 1; i <= 32; i++ ){
+		f = Screen->LoadFFC(i);
+		if ( f->Script == slot ) {
+			f->Data = 0;
+		}
+	}
+}
+
+void ChangeFFCScript(int slot, int newScript){
+	int thisFFC;
+	ffc f;
+	for( int i = 1; i <= 32; i++ ){
+		f = Screen->LoadFFC(i);
+		if ( f->Script == slot ) {
+			f->Script = newScript;
+		}
+	}
+}
+
+
+int FreeFFC(){
+	ffc f;
+	for( int q = 1; q <= 32; q++ ){
+		f = Screen->LoadFFC(q);
+		if( f->Data == 0 ){
+			return q;
+		}	
+	} 
+	return 0;
+}
+
+int FreeFFC(int max){
+	ffc f;
+	for( int q = 1; q <= 32; q++ ){
+		f = Screen->LoadFFC(q);
+		if( f->Data == 0 && q <= max ){
+			return q;
+		}	
+	} 
+	return 0;
+}
+
+int FreeFFC(int min, int max){
+	ffc f;
+	for( int q = 1; q <= 32; q++ ){
+		f = Screen->LoadFFC(q);
+		if( f->Data == 0 && q >= min && q <= max ){
+			return q;
+		}	
+	} 
+	return 0;
+}
+
+void LoadFreeFFC(){
+	int free = FreeFFC();
+	if ( free > 0 ) {
+		Screen->LoadFFC(free);
+	}
+}
 
 // Functions for determination of player position, and distance, relative to a given FFC.
 
@@ -81,3 +145,26 @@ bool CheckPath(int X, int Y, int Angle, int Distance, int SafeDist, int Step){
 }
 
 //Scripts
+
+//Kill an ffc with one command. Call as EndFFC(this) or EndFFC(id)
+void EndFFC(ffc f){
+	f->CSet = 0;
+	f->Delay = 0;
+	f->Y = -32768;
+	f->X = -32768;
+	f->Vy = 0;
+	f->Vx = 0;
+	f->Ax = 0;
+	f->Ay = 0;
+	for ( int q = 0; q <  SizeOfArray(f->Flags); q++) f->Flags[q] = 0;
+	f->TileWidth = 0;
+	f->TileHeight
+	f->EffectWidth
+	f->EffectHeight
+	f->Link
+	for ( int q = 0; q <  SizeOfArray(f->InitD); q++) f->InitD[q] = 0;
+	for ( int q = 0; q <  SizeOfArray(f->Misc); q++) f->Misc[q] = 0;
+	f->Data = 0;
+	f->Script = 0;
+	Quit();
+}
