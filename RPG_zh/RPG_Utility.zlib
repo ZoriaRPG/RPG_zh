@@ -1,0 +1,13 @@
+//Utility
+
+void CopyArray(int src, int dest){
+	for (int i = 0; i < SizeOfArray(src); i++){
+		src[i] = dest[i];
+	}
+}
+	
+void CopyArrayB(int size, int src, int dest){ //SizeOfArray() does not work on Boolean arrays, which is why it's prudent to have a bboolean array and an int or float array in pairs with identical index sizes.
+	for (int i = 0; i < size; i++){
+		src[i] = dest[i];
+	}
+}

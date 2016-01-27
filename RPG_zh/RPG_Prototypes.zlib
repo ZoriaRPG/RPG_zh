@@ -1,0 +1,28 @@
+//Prototype (Base) Functions
+//v0.1.2 for RPG.zh v0.96.9.1
+
+//Returns a value of frames, in Seconds, as a handy shortcut.
+int Seconds(int val){
+	return val * 60;
+}
+
+//Returns a value of minutes, in frames, as a handy chortcut. 
+int Minutes(int val){
+	return val * 360;
+}
+
+
+int ComboXSnap(int loc){ //Returns the X position of the centre of ComboX.
+}
+
+int ComboYSnap(int loc){ //Returns the Y position of the centre of ComboX.
+}
+
+//For loop shortcut for SizeOfArray, for ++ loops, instead of using <= SezeOfArray(), use < Array()
+int Array(int arr){
+	return SizeOfArray(arr) + 1;
+}
+
+int NumberOfNPCs(){
+	return (Screen->NumNPCs() + 1);
+}
