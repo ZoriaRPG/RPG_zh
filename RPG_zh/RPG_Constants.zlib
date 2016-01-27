@@ -1,0 +1,109 @@
+//Constants
+
+/// Constants for GameEvents[] and GameDynamics[]
+
+const int NOMENU = 1100; //A bool.
+const int LINKSEEN = 1101; //Bool
+const int DRINKS_LEFT = 1102; //An int.
+const int DET_F1 = 1003; 
+const int DET_F2 = 1004;
+const int DET_RAD = 1005;
+const int DET_SLOWER = 1006;
+const int DET_BOMBS = 1007;
+const int DET_R1 = 1008;
+const int DET_R2 = 1009;
+const int DET_SLOWERA = 1010;
+const int USEBOMBODO = 1011;
+
+const int RINGTIMER = 1012;
+const int BYRNATIMER = 1013;
+const int BOOTSTIMER = 1014; 
+
+const int OWNSTAFF = 1015; //bool. The code for this is in gc_global and in gc_jhkarr_NWS
+const int OWNNIGHTFALL = 1016;
+const int OWNSWORDOFLIGHT = 1017;
+
+const int RINGON = 1018; //bool
+const int BYRNAON = 1019; //bool
+const int BOOTSON = 1020; //bool
+const int GOGGLESON = 1021; //bool
+const int GOGGLESTIMER = 1022; //int
+
+const int FFCS_SUSPENDED = 1023; //bool, tango
+
+const int EVERSAVED = 1024; //bool, RPG_Backup.zlib
+const int SAVEANDQUIT = 1025; //bool, RPG_Backup.zlib
+
+const int SWIMMING = 1026; //RPG_Engine.zlib
+const int D20MODS = 1027; //Used by RPG_Stats.zlib
+const int TIMERITEM = 1028;
+const int TIMERVALUE = 1029;
+const int CIGARPICKUP = 1030;
+
+const int STAT_MOD_MULTIPLIER = 1031;
+const int STATMODMULTIPLIER = 1031;
+
+const int LASTITEMUSED = 1032;
+const int LAST_ITEM_USED = 1032;
+
+const int PLAYINGMESSAGE = 1033;
+
+const int PLAYERHP = 1034;
+const int PLAYER_HP = 1034;
+
+//Player Actions
+const int MENUTALK = 1035;
+const int MENU_TALK = 1035;
+const int PLAYERTALKING = 1036;
+const int PLAYER_TALKING = 1036;
+//const int PLAYERSEARCHING = 1037; //This already exists somewhere. Find it, and fix it. 
+const int PLAYER_LISTENING = 1037;
+const int PLAYERSEARCHING = 1038;
+const int PLAYER_SEARCHING = 1038;
+const int PLAYEREXAMINING = 1038;
+const int PLAYER_EXAMINING = 1038;
+const int PLAYERDISARMING = 1039;
+const int PLAYER_DISARMING = 1039;
+const int PLAYERTAKINGITEM = 1040;
+const int PLAYER_TAKING_ITEM = 1040;
+const int PLAYERCHECKING = 1041;
+const int PLAYER_CHECKING = 1041;
+const int PLAYERLOOKING = 1042;
+const int PLAYER_LOOKING = 1042;
+const int PLAYERVISTA = 1043;
+const int PLAYER_VISTA = 1043;
+
+const int MENUOPEN = 1044;
+const int MENU_OPEN = 1044;
+const int EQUIPITEM = 1045;
+const int EQUIP_ITEM = 1045;
+
+const int FIRSTPLAY = 1046;
+const int FIRST_PLAY = 1046;
+
+const int BREATHEUNDERWATER = 1047;
+const int BREATHE_UNDERWATER = 1047;
+
+//1050 to 1099
+
+const int CHALLENGE_NUMBER = 1051;
+const int CHALENGENUMBER = 1051;
+
+
+
+/// Other constants
+
+const int DETONATE_FFCSLOT = 1;
+
+//const int DROP_ENEMY_ID = 0;v//Defined in RPG_Items.zlib
+
+//Owns items
+
+const int I_SWORDOFLIGHT = 152;
+const int I_STAFF_OF_JHKARR = 172;
+const int I_STAFF_OF_JHKARR1 = 88;
+
+
+/// Primary Game Events
+
+const int DALEKLANDING = 505;
