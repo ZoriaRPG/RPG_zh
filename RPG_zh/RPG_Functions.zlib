@@ -1,11 +1,26 @@
 //Main Functions
-//v0.4.4 for RPG.zh v0.97.6
+//v0.4.5 for RPG.zh v0.97.7
 //Call any of these, using a constant, to read from one of the main arrays.
 
 //const int BUMP = -32000; //Set a value to pass to allow ++ easily.
 //const int KICK = -32001; //Set a value to pass to allow -- easily.
 //const int ADD = -32002; //A boolean switch to add a specific value.
 //const int SUB = -32003; //A boolean switch to subtract a specific value. 
+
+const int gRAM = 200000; //Register to hold gRAM (global active local) pointer;
+const int GlobRAM = 200001; //Register to hold GlobalRAM array pointer
+
+//Sets global active script array pointer to a register.
+void Assign_gRAM(int arr){
+	GameDynamics[gRAM] = arr;
+}
+
+//Assigns main array pointer to a register in itself. 
+void Assign_GlobRAM(int arr){
+	GameDynamics[GlobRAM] = arr;
+}
+
+//We need to convert GameEvents to a float type. 
 
 //! these constants moved to RPG_Constants.zlib under 'Function Constants'.
 
@@ -19,11 +34,56 @@ void Is(int event, bool setting){
 	GameEvents[event] = setting;
 }
 
+//Returns a value from GameEvents[]
+bool Is(int event){
+	return GameEvents[event];
+}
+
+//Sets a value in GameEvents[]
+void Is(int event, float setting){
+	if ( setting == KICK ) GameEvents[setting]--;
+	else if ( setting == KICK ) GameEvents[setting]++;
+	else GameEvents[event] = setting;
+}
+
 
 //Returns from GameDynamics[]
 float Val(int var){
 	return GameDynamics[var];
 }
+
+//Increases GameDynamics[var] by +1
+float Inc(int var){
+	GameDynamics[var]++;
+}
+
+
+//Increases GameDynamics[var] by -1
+float Dec(int var){
+	GameDynamics[var]--;
+}
+
+
+//Modifies GameDynamics[var] by amt
+float Mod(int var, float amt){
+	GameDynamics[var] += amt;
+}
+
+//Increases GameDynamics[var] by amt. 
+//Negative values passed to amt will decrease the register.
+float Inc(int var, float amt){
+	GameDynamics[var]+=amt;
+}
+
+
+//Decreases GameDynamics[var] by amt
+//Negative values passed to amt will increase the register.
+float Dec(int var, float amt){
+	GameDynamics[var]-=amt;
+}
+
+
+
 
 //Sets a value in GameDynamics[]
 void Val(int var, float value){
@@ -215,4 +275,5 @@ int NumOfMaps(){
 //Constants for the CSets are in RPG_Constants.zlib
 int Colour(int cset, int column){
 	return cset+column;
+}
 }
