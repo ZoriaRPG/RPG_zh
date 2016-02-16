@@ -1,0 +1,260 @@
+int CheatCode[14];
+const itn CODE_STEP = 13;
+uduplrlrababs
+
+void KonamiCode(){
+    if ( !CheatCode[0] ) && CheatCode[CODE_STEP] == 0 && Link->PressUp ) {
+        CheatCode[0] = 1;
+        return;
+    }
+    if ( !CheatCode[1] && Link->PressDown ) {
+        CheatCode[1] = 1;
+        return;
+    }
+
+
+bool OnlyInput(int btn){
+    bool correct;
+    if ( btn == BUTTON_A ) {
+        if ( Link->PressA ) correct = true;
+        if ( Link->PressB ) correct = false;
+        if ( Link->PressL ) correct = false;
+        if ( Link->PressR ) correct = false;
+        if ( Link->PressUp ) correct = false;
+        if ( Link->PressDown ) correct = false;
+        if ( Link->PressLeft ) correct = false;
+        if ( Link->PressRight ) correct = false;
+        if ( Link->PressEx1 ) correct = false;
+        if ( Link->PressEx2 ) correct = false;
+        if ( Link->PressEx3 ) correct = false;
+        if ( Link->PressEx4 ) correct = false;
+        if ( Link->PressMap ) correct = false;
+        if ( Link->PressStart ) correct = false;
+        //if ( Link->PressAxisUp ) correct = false;
+        //if ( Link->PressAxisLeft ) correct = false;
+        //if ( Link->PressAxisDown ) correct = false;
+        //if ( Link->PressAxisRight ) correct = false;
+        return correct;
+    }
+    if ( btn == BUTTON_B ) {
+        if ( Link->PressB ) correct = true;
+        if ( Link->PressA ) correct = false;
+        if ( Link->PressL ) correct = false;
+        if ( Link->PressR ) correct = false;
+        if ( Link->PressUp ) correct = false;
+        if ( Link->PressDown ) correct = false;
+        if ( Link->PressLeft ) correct = false;
+        if ( Link->PressRight ) correct = false;
+        if ( Link->PressEx1 ) correct = false;
+        if ( Link->PressEx2 ) correct = false;
+        if ( Link->PressEx3 ) correct = false;
+        if ( Link->PressEx4 ) correct = false;
+        if ( Link->PressMap ) correct = false;
+        if ( Link->PressStart ) correct = false;
+        return correct;
+    }
+    if ( btn == BUTTON_L ) {
+        if ( Link->PressL ) correct = true;
+        if ( Link->PressB ) correct = false;
+        if ( Link->PressA ) correct = false;
+        if ( Link->PressR ) correct = false;
+        if ( Link->PressUp ) correct = false;
+        if ( Link->PressDown ) correct = false;
+        if ( Link->PressLeft ) correct = false;
+        if ( Link->PressRight ) correct = false;
+        if ( Link->PressEx1 ) correct = false;
+        if ( Link->PressEx2 ) correct = false;
+        if ( Link->PressEx3 ) correct = false;
+        if ( Link->PressEx4 ) correct = false;
+        if ( Link->PressMap ) correct = false;
+        if ( Link->PressStart ) correct = false;
+        return correct;
+    }
+    if ( btn == BUTTON_R ) {
+        if ( Link->PressR ) correct = true;
+        if ( Link->PressB ) correct = false;
+        if ( Link->PressA ) correct = false;
+        if ( Link->PressL ) correct = false;
+        if ( Link->PressUp ) correct = false;
+        if ( Link->PressDown ) correct = false;
+        if ( Link->PressLeft ) correct = false;
+        if ( Link->PressRight ) correct = false;
+        if ( Link->PressEx1 ) correct = false;
+        if ( Link->PressEx2 ) correct = false;
+        if ( Link->PressEx3 ) correct = false;
+        if ( Link->PressEx4 ) correct = false;
+        if ( Link->PressMap ) correct = false;
+        if ( Link->PressStart ) correct = false;
+        return correct;
+    }
+    if ( btn == BUTTON_UP ) {
+        if ( Link->PressUp ) correct = true;
+        if ( Link->PressB ) correct = false;
+        if ( Link->PressA ) correct = false;
+        if ( Link->PressR ) correct = false;
+        if ( Link->PressL ) correct = false;
+        if ( Link->PressDown ) correct = false;
+        if ( Link->PressLeft ) correct = false;
+        if ( Link->PressRight ) correct = false;
+        if ( Link->PressEx1 ) correct = false;
+        if ( Link->PressEx2 ) correct = false;
+        if ( Link->PressEx3 ) correct = false;
+        if ( Link->PressEx4 ) correct = false;
+        if ( Link->PressMap ) correct = false;
+        if ( Link->PressStart ) correct = false;
+        return correct;
+    }
+    if ( btn == BUTTON_DOWN ) {
+        if ( Link->PressDown ) correct = true;
+        if ( Link->PressB ) correct = false;
+        if ( Link->PressA ) correct = false;
+        if ( Link->PressR ) correct = false;
+        if ( Link->PressUp ) correct = false;
+        if ( Link->PressL ) correct = false;
+        if ( Link->PressLeft ) correct = false;
+        if ( Link->PressRight ) correct = false;
+        if ( Link->PressEx1 ) correct = false;
+        if ( Link->PressEx2 ) correct = false;
+        if ( Link->PressEx3 ) correct = false;
+        if ( Link->PressEx4 ) correct = false;
+        if ( Link->PressMap ) correct = false;
+        if ( Link->PressStart ) correct = false;
+        return correct;
+    }
+    if ( btn == BUTTON_LEFT ) {
+        if ( Link->PressLeft ) correct = true;
+        if ( Link->PressB ) correct = false;
+        if ( Link->PressA ) correct = false;
+        if ( Link->PressR ) correct = false;
+        if ( Link->PressUp ) correct = false;
+        if ( Link->PressDown ) correct = false;
+        if ( Link->PressL ) correct = false;
+        if ( Link->PressRight ) correct = false;
+        if ( Link->PressEx1 ) correct = false;
+        if ( Link->PressEx2 ) correct = false;
+        if ( Link->PressEx3 ) correct = false;
+        if ( Link->PressEx4 ) correct = false;
+        if ( Link->PressMap ) correct = false;
+        if ( Link->PressStart ) correct = false;
+        return correct;
+    }
+    if ( btn == BUTTON_RIGHT ) {
+        if ( Link->PressRight ) correct = true;
+        if ( Link->PressB ) correct = false;
+        if ( Link->PressA ) correct = false;
+        if ( Link->PressR ) correct = false;
+        if ( Link->PressUp ) correct = false;
+        if ( Link->PressDown ) correct = false;
+        if ( Link->PressLeft ) correct = false;
+        if ( Link->PressL ) correct = false;
+        if ( Link->PressEx1 ) correct = false;
+        if ( Link->PressEx2 ) correct = false;
+        if ( Link->PressEx3 ) correct = false;
+        if ( Link->PressEx4 ) correct = false;
+        if ( Link->PressMap ) correct = false;
+        if ( Link->PressStart ) correct = false;
+        return correct;
+    }
+    if ( btn == BUTTON_EX1 ) {
+        if ( Link->PressEx1 ) correct = true;
+        if ( Link->PressB ) correct = false;
+        if ( Link->PressA ) correct = false;
+        if ( Link->PressR ) correct = false;
+        if ( Link->PressUp ) correct = false;
+        if ( Link->PressDown ) correct = false;
+        if ( Link->PressLeft ) correct = false;
+        if ( Link->PressRight ) correct = false;
+        if ( Link->PressL ) correct = false;
+        if ( Link->PressEx2 ) correct = false;
+        if ( Link->PressEx3 ) correct = false;
+        if ( Link->PressEx4 ) correct = false;
+        if ( Link->PressMap ) correct = false;
+        if ( Link->PressStart ) correct = false;
+        return correct;
+    }
+    if ( btn == BUTTON_EX2 ) {
+        if ( Link->PressEx2 ) correct = true;
+        if ( Link->PressB ) correct = false;
+        if ( Link->PressA ) correct = false;
+        if ( Link->PressR ) correct = false;
+        if ( Link->PressUp ) correct = false;
+        if ( Link->PressDown ) correct = false;
+        if ( Link->PressLeft ) correct = false;
+        if ( Link->PressRight ) correct = false;
+        if ( Link->PressEx1 ) correct = false;
+        if ( Link->PressL ) correct = false;
+        if ( Link->PressEx3 ) correct = false;
+        if ( Link->PressEx4 ) correct = false;
+        if ( Link->PressMap ) correct = false;
+        if ( Link->PressStart ) correct = false;
+        return correct;
+    }
+    if ( btn == BUTTON_EX3 ) {
+        if ( Link->PressEx3 ) correct = true;
+        if ( Link->PressB ) correct = false;
+        if ( Link->PressA ) correct = false;
+        if ( Link->PressR ) correct = false;
+        if ( Link->PressUp ) correct = false;
+        if ( Link->PressDown ) correct = false;
+        if ( Link->PressLeft ) correct = false;
+        if ( Link->PressRight ) correct = false;
+        if ( Link->PressEx1 ) correct = false;
+        if ( Link->PressEx2 ) correct = false;
+        if ( Link->PressL ) correct = false;
+        if ( Link->PressEx4 ) correct = false;
+        if ( Link->PressMap ) correct = false;
+        if ( Link->PressStart ) correct = false;
+        return correct;
+    }
+    if ( btn == BUTTON_EX4 ) {
+        if ( Link->PressEx4 ) correct = true;
+        if ( Link->PressB ) correct = false;
+        if ( Link->PressA ) correct = false;
+        if ( Link->PressR ) correct = false;
+        if ( Link->PressUp ) correct = false;
+        if ( Link->PressDown ) correct = false;
+        if ( Link->PressLeft ) correct = false;
+        if ( Link->PressRight ) correct = false;
+        if ( Link->PressEx1 ) correct = false;
+        if ( Link->PressEx2 ) correct = false;
+        if ( Link->PressEx3 ) correct = false;
+        if ( Link->PressL ) correct = false;
+        if ( Link->PressMap ) correct = false;
+        if ( Link->PressStart ) correct = false;
+        return correct;
+    }
+    if ( btn == BUTTON_START ) {
+        if ( Link->PressStart ) correct = true;
+        if ( Link->PressB ) correct = false;
+        if ( Link->PressA ) correct = false;
+        if ( Link->PressR ) correct = false;
+        if ( Link->PressUp ) correct = false;
+        if ( Link->PressDown ) correct = false;
+        if ( Link->PressLeft ) correct = false;
+        if ( Link->PressRight ) correct = false;
+        if ( Link->PressEx1 ) correct = false;
+        if ( Link->PressEx2 ) correct = false;
+        if ( Link->PressEx3 ) correct = false;
+        if ( Link->PressEx4 ) correct = false;
+        if ( Link->PressMap ) correct = false;
+        if ( Link->PressL ) correct = false;
+        return correct;
+    }
+    if ( btn == BUTTON_MAP ) {
+        if ( Link->PressMap ) correct = true;
+        if ( Link->PressB ) correct = false;
+        if ( Link->PressA ) correct = false;
+        if ( Link->PressR ) correct = false;
+        if ( Link->PressUp ) correct = false;
+        if ( Link->PressDown ) correct = false;
+        if ( Link->PressLeft ) correct = false;
+        if ( Link->PressRight ) correct = false;
+        if ( Link->PressEx1 ) correct = false;
+        if ( Link->PressEx2 ) correct = false;
+        if ( Link->PressEx3 ) correct = false;
+        if ( Link->PressEx4 ) correct = false;
+        if ( Link->PressL ) correct = false;
+        if ( Link->PressStart ) correct = false;
+        return correct;
+    } return false;
+}

@@ -1,0 +1,491 @@
+///ZScript Docs
+
+Preamble: The ZScript lexer uses string formatting detection to detect the type of instructions being fed to it. 
+This falls into a strict syntax, with each element represented by a case or enum. The following are the legal types of components
+that the compiler recognises.
+
+When scanning a code file, for example, the following example lines may be evaluated:
+
+ffc script my_ffc{
+    void run(){
+        my_function();
+    }
+}
+
+The parser looks at this, one line at a time,as a string in a buffer, and matches symbolic concepts from that:
+
+ffc script my_ffc{
+    scans as
+TYPE TOKEN IEENTIFIER LBRACE
+
+The lexer then tries to match this to a type of possible legal string, and examines each of the internal keywords with 
+a table.
+TYPE ffc
+TOKEN script
+IDENTIFIER my_ffc
+LBRACE {
+
+This tells the lexer that it is an ffc script, opening, with the name my_ffc. The LBRACE indicates that a codeblock will follow.
+
+
+LBRACE
+RBRACE
+CHARACTER
+QUOTEDSTRING
+FUNCTION
+QUOTE
+LPAREN
+LPAREN
+IDENTIFIER
+TYPE
+NUMBER
+SIGN
+LBRACKET
+RBRACKET
+OPERATOR
+
+
+Compiler Directives
+
+import
+
+Basic Types
+
+int
+float
+bool
+const *
+void
+
+ZScript types
+* ffc
+* lweapon
+* eweapon
+* npc
+* itemdata
+* item
+* !npcdata -> To be added.
+* wtf : This is used by the lexer when it can;t identify a legal type. 
+        The lexer will return an error, e.g. 'Cannot cast from wtf to float'.
+
+Namespace and Class Types
+* link
+* screen
+* game
+
+
+Declarations
+* Variables
+* Arrays
+* Objects
+
+Arrays
+
+Pointers
+* General
+* Array
+* Link
+* This
+* Objects
+
+Strings
+* String Formatting
+* Strings vs. Arrays
+* String.zh
+
+
+Functions
+
+Making Functions
+Making Accessors
+
+Instructions & Statements`
+* Break
+* Continue
+* Return
+* While
+* Do
+-->Until
+* If
+* Else
+* Else If
+* True
+* False
+//* More
+//* Less
+
+Tokens and Operator Symbols (ffscript.ypp, ffscript.lpp)
+* script
+* global
+* ffc
+* item
+* 
+
+%token SCRIPT
+%token FLOAT
+%token FOR
+%token BOOL
+%token VOID
+%token IF
+%token ELSE
+%token RETURN
+%token IMPORT
+%token TRUE
+%token FALSE
+%token WHILE
+%token FFC
+%token ITEM
+%token ITEMCLASS
+%token GLOBAL
+%token BREAK
+%token CONTINUE
+%token CONST
+%token DO
+%token NPC
+%token LWEAPON
+%token EWEAPON
+
+%token ASSIGN
+%token SEMICOLON
+%token COMMA
+%token LBRACKET
+%token RBRACKET
+%token LPAREN
+%token RPAREN
+%token DOT
+%token LBRACE
+%token RBRACE
+%token ARROW
+
+%token NUMBER
+%token PLUSASSIGN
+%token MINUSASSIGN
+%token TIMESASSIGN
+%token DIVIDEASSIGN
+%token ANDASSIGN
+%token ORASSIGN
+%token BITANDASSIGN
+%token BITORASSIGN
+%token BITXORASSIGN
+%token MODULOASSIGN
+%token LSHIFTASSIGN
+%token RSHIFTASSIGN
+%token IDENTIFIER
+%token QUOTEDSTRING
+%token SINGLECHAR
+
+%left LSHIFT RSHIFT
+%left BITAND BITOR BITXOR
+%left AND OR
+%left NOT BITNOT
+%left INCREMENT DECREMENT
+%left LE LT GE GT EQ NE
+%left PLUS MINUS
+%left TIMES DIVIDE
+%left MODULO
+
+
+
+* ARROW
+* LSHIFTASSIGN
+* RSHIFTASSIGN
+\<\<=		{ doLines(); return LSHIFTASSIGN; }
+\>\>=		{ doLines(); return RSHIFTASSIGN; }
+\<\<		{ doLines(); return LSHIFT; }
+\>\>		{ doLines(); return RSHIFT; }
+\<=			{ doLines();return LE; }
+\<			{ doLines();return LT; }
+\>=			{ doLines();return GE; }
+\>			{ doLines();return GT; }
+==			{ doLines();return EQ; }
+\!=			{ doLines();return NE; }
+\=			{ doLines();return ASSIGN; }
+\+=			{ doLines();return PLUSASSIGN; }
+\-=			{ doLines();return MINUSASSIGN; }
+\*=			{ doLines();return TIMESASSIGN; }
+\/=			{ doLines();return DIVIDEASSIGN; }
+\&\&=		{ doLines();return ANDASSIGN; }
+\|\|=		{ doLines();return ORASSIGN; }
+\&=			{ doLines();return BITANDASSIGN; }
+\|=			{ doLines();return BITORASSIGN; }
+\^=			{ doLines();return BITXORASSIGN; }
+\%=			{ doLines();return MODULOASSIGN; }
+\;			{ doLines();return SEMICOLON; }
+\,			{ doLines();return COMMA; }
+\[			{ doLines();return LBRACKET; }
+\]			{ doLines();return RBRACKET; }
+\(			{ doLines();return LPAREN; }
+\)			{ doLines();return RPAREN; }
+\+\+		{ doLines();return INCREMENT; }
+\-\-		{ doLines();return DECREMENT; }
+\.          { doLines();return DOT; }
+\+			{ doLines();return PLUS; }
+\-                { doLines();return MINUS; }
+\*			{ doLines();return TIMES; }
+\/\/.*            { ; }
+\/                { doLines();return DIVIDE; }
+\{                { doLines();return LBRACE; }
+\}                { doLines();return RBRACE; }
+\&\&			{ doLines();return AND; }
+\|\|			{ doLines();return OR; }
+\&				{ doLines(); return BITAND; }
+\|				{ doLines(); return BITOR; }
+\~				{ doLines(); return BITNOT; }
+\^				{ doLines(); return BITXOR; }
+\!			{ doLines();return NOT; }
+\%			{ doLines(); return MODULO; }
+
+Legal Chars
+
+[_a-zA-Z]([_a-zA-Z]|[0-9])*	{
+						doLines();
+						yylval = new ASTString(yytext, yylloc);
+						return IDENTIFIER; 
+					}
+
+([0-9]*\.?[0-9]+) 		{ doLines();yylval = new ASTFloat(yytext, ASTFloat::TYPE_DECIMAL, yylloc); return NUMBER; }
+
+(0x[0-9a-fA-F]+)		{ doLines();yylval = new ASTFloat(yytext, ASTFloat::TYPE_HEX, yylloc); return NUMBER; }
+
+([0-1]+b)				{ doLines();yylval = new ASTFloat(yytext, ASTFloat::TYPE_BINARY, yylloc); return NUMBER; }
+
+
+\"[^\"]+\"				{ doLines();yylval = new ASTString(yytext, yylloc); return QUOTEDSTRING; }
+
+\'[^\']?\'				{ doLines();yylval = new ASTString(yytext, yylloc); return SINGLECHAR; }
+
+{WS}					{ ; }
+
+Illegal Chars
+SINGLECHAR in an IDENTIFIER
+Any SINGLECHAR that is not also registered in IDENTIFIER may not be used as part of an IDENTIFIER.
+Likewise,DOT, COLON, SEMICOLON, COMMA< LPAREN, RPAREN, LBRACE, RBRACE, LBRACKET, RBRACKET, any OPERATOR, and
+most symbols are not legal in identifiers. Many of these are however, legal inside a QUOTEDSTRING.
+
+Upper-ASCII
+
+Comments
+
+Formatting for the Parser: The following are the symbols that the lexer eecognises, with regard to legal syntax.
+
+Global Statements
+
+Import {$$ = $1;}
+	| FuncDecl {$$ = $1;}
+	| ConstDecl {$$ = $1;}
+	| VarDecl SEMICOLON {$$ = $1;}
+	| VarDecl ASSIGN Expr SEMICOLON
+    
+Type
+Type : FLOAT {$$ = new ASTTypeFloat(@1);}
+	| BOOL {$$ = new ASTTypeBool(@1);}
+	| VOID {$$ = new ASTTypeVoid(@1);}
+	| FFC {$$ = new ASTTypeFFC(@1);}
+	| ITEM {$$ = new ASTTypeItem(@1);}
+	| ITEMCLASS {$$ = new ASTTypeItemclass(@1);}
+	| NPC		{$$ = new ASTTypeNPC(@1);}
+	| LWEAPON	{$$ = new ASTTypeLWpn(@1);}
+	| EWEAPON	{$$ = new ASTTypeEWpn(@1);}
+	;
+
+
+Variable Declarations and Statements
+Type IDENTIFIER SEMICOLON
+Type IDENTIFIER ASSIGN NUMBER SEMICOLON
+Type IDENTIFIER ASSIGN IDENTIFIER SEMICOLON
+
+Constant Declarations
+CONST FLOAT IDENTIFIER ASSIGN NUMBER SEMICOLON
+CONST FLOAT IDENTIFIER ASSIGN MINUS NUMBER SEMICOLON
+
+Array Declarations
+Type IDENTIFIER LBRACKET NUMBER RBRACKET
+Type IDENTIFIER LBRACKET NUMBER RBRACKET ASSIGN LBRACE ArrayList RBRACE
+Type IDENTIFIER LBRACKET RBRACKET ASSIGN LBRACE ArrayList RBRACE
+
+Where 'Type' may be any legal type; and Arraylist is the field (set) of values as:
+ArrayList COMMA Expr
+
+String Declarations
+Type IDENTIFIER LBRACKET NUMBER RBRACKET ASSIGN QUOTEDSTRING
+Type IDENTIFIER LBRACKET RBRACKET ASSIGN QUOTEDSTRING
+
+QUOTEDSTRING shoudl always have formatting as follows:
+QUOTE text QUOTE
+
+For this reason, it is not possible to use QUOTE ( " ) inside strings, as this is a tokenm that starts, or
+ends a QUOTEDSTRING. You may use the SINGLECHAR ' in sequence ( '' ) or ` in sequence (``) to simulate double-quotes
+inside a string, asthese are registered as SINGLECHAR.
+
+Script Declarations:
+ScriptType SCRIPT IDENTIFIER ScriptBlock
+ScriptBlock:
+LBRACE ScriptStmtList RBRACE
+or
+LBRACE RBRACE
+ScriptStmtList is the field of the codeblock as text.
+
+Import Directives
+IMPORT QUOTEDSTRING
+
+Function Declarations
+Type IDENTIFIER LPAREN ParamList RPAREN Block
+Type IDENTIFIER LPAREN RPAREN Block 
+where block is the following syntax:
+LBRACE StmtList RBRACE
+LBRACE RBRACE
+
+ParamList : VarDecl COMMA ParamList
+
+Blocks
+
+Stmt : VarDecl SEMICOLON {$$ = $1;}
+	| ArrayDecl SEMICOLON {$$ = $1;}
+	| AssignStmt SEMICOLON {$$ = $1;}
+	| ShortcutAssignStmt SEMICOLON {$$=$1;}
+	| ForStmt {$$ = $1;}
+	| IfStmt {$$ = $1;}
+	| Block {$$ = $1;}
+	| ReturnStmt SEMICOLON {$$ = $1;}
+	| WhileStmt {$$ = $1;}
+	| DoStmt {$$ = $1;}
+	| SEMICOLON {$$ = new ASTStmtEmpty(@1);}
+	| Expr SEMICOLON {$$=$1;}
+	| BREAK SEMICOLON {$$ = new ASTStmtBreak(@1);}
+	| CONTINUE SEMICOLON {$$ = new ASTStmtContinue(@1);}
+	;
+
+StmtNoSemi : VarDecl {$$ = $1;}
+	| ArrayDecl {$$ = $1;}
+	| AssignStmt {$$ = $1;}
+	| ShortcutAssignStmt {$$=$1;}
+	| ForStmt {$$ = $1;}
+	| IfStmt {$$ = $1;}
+	| Block {$$ = $1;}
+	| ReturnStmt {$$ = $1;}
+	| WhileStmt {$$ = $1;}
+	| DoStmt {$$ = $1;}
+	| {$$ = new ASTStmtEmpty(noloc);}
+	| Expr {$$=$1;}
+	| BREAK {$$ = new ASTStmtBreak(@1);}
+	| CONTINUE {$$ = new ASTStmtContinue(@1);}
+	;
+    
+ShortcutAssignStmt : DotExpr PLUSASSIGN Expr {SHORTCUT(ASTExprPlus,$1,$3,$$,@1,@2) }
+				   | DotExpr MINUSASSIGN Expr {SHORTCUT(ASTExprMinus,$1,$3,$$,@1,@2) }
+				   | DotExpr TIMESASSIGN Expr {SHORTCUT(ASTExprTimes,$1,$3,$$,@1,@2) }
+				   | DotExpr DIVIDEASSIGN Expr {SHORTCUT(ASTExprDivide,$1,$3,$$,@1,@2) }
+				   | DotExpr ANDASSIGN Expr {SHORTCUT(ASTExprAnd,$1,$3,$$,@1,@2) }
+				   | DotExpr ORASSIGN Expr {SHORTCUT(ASTExprOr,$1,$3,$$,@1,@2) }
+				   | DotExpr BITANDASSIGN Expr {SHORTCUT(ASTExprBitAnd,$1,$3,$$,@1,@2) }
+				   | DotExpr BITORASSIGN Expr {SHORTCUT(ASTExprBitOr,$1,$3,$$,@1,@2) }
+				   | DotExpr BITXORASSIGN Expr {SHORTCUT(ASTExprBitXor,$1,$3,$$,@1,@2) }
+				   | DotExpr LSHIFTASSIGN Expr {SHORTCUT(ASTExprLShift,$1,$3,$$,@1,@2) }
+				   | DotExpr RSHIFTASSIGN Expr {SHORTCUT(ASTExprRShift,$1,$3,$$,@1,@2) }
+				   | DotExpr MODULOASSIGN Expr {SHORTCUT(ASTExprModulo,$1,$3,$$,@1,@2) }
+				   ;
+
+
+AssignStmt : LVal ASSIGN Expr {$$ = new ASTStmtAssign((ASTStmt *)$1, (ASTExpr *)$3,@1);}
+	;
+
+Dot Expressions
+DotExpr : IDENTIFIER DOT IDENTIFIER
+IDENTIFIER LBRACKET Expr RBRACKET
+IDENTIFIER DOT IDENTIFIER LBRACKET Expr RBRACKET 
+DotExpr ARROW IDENTIFIER
+DotExpr ARROW IDENTIFIER LBRACKET Expr RBRACKET
+
+Expressions
+EXPR SYMBOL EXPR
+Where SYMBOL is of the following:
+OR  AND     BITOR   BITXOR  BITAND   LSHIFT RSHIFT  TIMES   NOT MINUS DIVIDE MODULO PLUS MINUS BITNOT
+
+
+MultOp
+RelOp (GT, GE, LT,  LE, EQ, NE ) : GREATERTHAN, GREATEROREQUAL, LESSTHAN, LESSOREQUAL, EQUAL, NOTEQUAL
+
+Factor
+
+
+Factor : LPAREN Expr RPAREN {$$=$2;}
+	| DotExpr {$$ = $1;}
+	| DotExpr INCREMENT {ASTUnaryExpr *e = new ASTExprIncrement(@2);
+						 ASTExpr *op = (ASTExpr *)$1;
+						 e->setOperand(op);
+						 $$=e;}
+	| INCREMENT DotExpr {ASTUnaryExpr *e = new ASTExprPreIncrement(@1);
+						 ASTExpr *op = (ASTExpr *)$2;
+						 e->setOperand(op);
+						 $$=e;}
+	| DotExpr DECREMENT {ASTUnaryExpr *e = new ASTExprDecrement(@2);
+						 ASTExpr *op = (ASTExpr *)$1;
+						 e->setOperand(op);
+						 $$=e;}
+	| DECREMENT DotExpr {ASTUnaryExpr *e = new ASTExprPreDecrement(@1);
+						 ASTExpr *op = (ASTExpr *)$2;
+						 e->setOperand(op);
+						 $$=e;}
+	| NUMBER {ASTFloat *val = (ASTFloat *)$1;
+		    $$ = new ASTNumConstant(val,@1);}
+	| SINGLECHAR {ASTString *as = (ASTString *)$1;
+			char val[15];
+			sprintf(val, "%d", as->getValue().at(1));
+			$$ = new ASTNumConstant(new ASTFloat(val,0,@1),@1);}
+	| BoolConstant {$$ = $1;}
+	| FuncCall {$$=$1;}
+	;
+
+oolConstant : TRUE {$$ = new ASTBoolConstant(true,@1);}
+		 | FALSE {$$ = new ASTBoolConstant(false,@1);}
+		 ;
+
+FuncCall : DotExpr LPAREN ExprList RPAREN {ASTFuncCall *fc = (ASTFuncCall *)$3;
+							    ASTExpr *name = (ASTExpr *)$1;
+							    fc->setName(name);
+							    $$=fc;}
+	| DotExpr LPAREN RPAREN {ASTFuncCall *fc = new ASTFuncCall(@1);
+					    ASTExpr *name = (ASTExpr *)$1;
+					    fc->setName(name);
+					    $$=fc;}
+	;
+
+ExprList : Expr COMMA ExprList {ASTFuncCall *fc = (ASTFuncCall *)$3;
+					  ASTExpr *e = (ASTExpr *)$1;
+					  fc->addParam(e);
+					  $$ = fc;}
+	| Expr {ASTFuncCall *fc = new ASTFuncCall(@1);
+		  ASTExpr *e = (ASTExpr *)$1;
+		  fc->addParam(e);
+		  $$ = fc;}
+	;
+
+ForStmt : FOR LPAREN StmtNoSemi SEMICOLON Expr SEMICOLON StmtNoSemi RPAREN Stmt {ASTStmt *prec = (ASTStmt *)$3;
+												ASTExpr *term = (ASTExpr *)$5;
+												ASTStmt *incr = (ASTExpr *)$7;
+												ASTStmt *stmt = (ASTStmt *)$9;
+												$$ = new ASTStmtFor(prec,term,incr,stmt,@1);}
+	;
+
+WhileStmt : WHILE LPAREN Expr RPAREN Stmt {ASTExpr *cond = (ASTExpr *)$3;
+										   ASTStmt *stmt = (ASTStmt *)$5;
+										   $$ = new ASTStmtWhile(cond,stmt,@1);}
+
+DoStmt : DO Stmt WHILE LPAREN Expr RPAREN {ASTExpr *cond = (ASTExpr *)$5;
+										   ASTStmt *stmt = (ASTStmt *)$2;
+										   $$ = new ASTStmtDo(cond,stmt,@1);}
+
+IfStmt : IF LPAREN Expr RPAREN Stmt {ASTExpr *cond = (ASTExpr *)$3;
+							  ASTStmt *stmt = (ASTStmt *)$5;
+							  $$ = new ASTStmtIf(cond,stmt,@1);}
+	| IF LPAREN Expr RPAREN Stmt ELSE Stmt {ASTExpr *cond = (ASTExpr *)$3;
+										ASTStmt *ifstmt = (ASTStmt *)$5;
+										ASTStmt *elsestmt = (ASTStmt *)$7;
+										$$ = new ASTStmtIfElse(cond,ifstmt,elsestmt,@1);}
+	;
+
+ReturnStmt : RETURN Expr {$$ = new ASTStmtReturnVal((ASTExpr *)$2,@1);}
+	| RETURN {$$ = new ASTStmtReturn(@1);}
+	;
+
+%%

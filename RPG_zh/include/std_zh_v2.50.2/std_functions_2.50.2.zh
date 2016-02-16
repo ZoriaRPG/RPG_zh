@@ -1,5 +1,5 @@
 //std_functions.zh for 2.50.2
-//25-JAN-2015
+//16-FEB-2016
 
 
 //
@@ -5402,3 +5402,243 @@ bool CollisionDir(int cmb, lweapon l, int dir, bool facingspecificdir, bool chec
 	return RectCollision( c[0], c[1], c[2], c[3], c[4], c[5], c[6], c[7] );
 }
 
+//Feb 2016
+bool Pos(int val){ return ( val > 0 ); }
+bool neg(int val){ return ( neg < 0 ); }
+
+
+//Returns the lesser of values passed as args. Overloaded for up to eight values.
+int Lesser(int valA, int valB){
+	if ( valA < valB ) return valA;
+	else return valB;
+}
+
+int Lesser(int valA, int valB, int valC){
+	if ( valA < valB && valA < valC ) return valA;
+	else if ( valB < valA && valB < valC ) return valB;
+	else return valC;
+}
+
+int Lesser(int valA, int valB, int valC, in valD){
+	if ( valA < valB && valA < valC && valA < valD) return valA;
+	else if ( valB < valA && valB < valC && valB < valD ) return valB;
+	else if ( valC < valA && valC < valB && valC < valD ) return valC;
+	else return valD;
+}
+
+int Lesser(int valA, int valB, int valC, in valD, int valE){
+	if ( valA < valB && valA < valC && valA < valD && valA < valE) return valA;
+	else if ( valB < valA && valB < valC && valB < valD && valB < valE ) return valB;
+	else if ( valC < valA && valC < valB && valC < valD && valC < valE ) return valC;
+	else if ( valD < valA && valD < valB && valD < valC && valD < valE ) return valD;
+	else return valE;
+}
+
+
+int Lesser(int valA, int valB, int valC, in valD, int valE, int valF){
+	if ( valA < valB && valA < valC && valA < valD && valA < valE && valA < valF) return valA;
+	else if ( valB < valA && valB < valC && valB < valD && valB < valE && valB < valF ) return valB;
+	else if ( valC < valA && valC < valB && valC < valD && valC < valE && valC < valF ) return valC;
+	else if ( valD < valA && valD < valB && valD < valC && valD < valE && valD < valF ) return valD;
+	else if ( valE < valA && valE < valB && valE < valC && valE < valD && valE < valF ) return valE;
+	else return valF;
+}
+
+int Lesser(int valA, int valB, int valC, in valD, int valE, int valF, int valG){
+	if ( valA < valB && valA < valC && valA < valD && valA < valE && valA < valF && valA < valG) return valA;
+	else if ( valB < valA && valB < valC && valB < valD && valB < valE && valB < valF && valB < valG ) return valB;
+	else if ( valC < valA && valC < valB && valC < valD && valC < valE && valC < valF && valC < valG ) return valC;
+	else if ( valD < valA && valD < valB && valD < valC && valD < valE && valD < valF && valD < valG ) return valD;
+	else if ( valE < valA && valE < valB && valE < valC && valE < valD && valE < valF && valE < valG ) return valE;
+	else if ( valF < valA && valF < valB && valF < valC && valF < valD && valF < valE && valF < valG ) return valF;
+	else return valG;
+}
+
+int Lesser(int valA, int valB, int valC, in valD, int valE, int valF, int valG, int valH){
+	if ( valA < valB && valA < valC && valA < valD && valA < valE && valA < valF && valA < valG && valA < valH) return valA;
+	else if ( valB < valA && valB < valC && valB < valD && valB < valE && valB < valF && valB < valG && valB < valH ) return valB;
+	else if ( valC < valA && valC < valB && valC < valD && valC < valE && valC < valF && valC < valG && valC < valH) return valC;
+	else if ( valD < valA && valD < valB && valD < valC && valD < valE && valD < valF && valD < valG && valD < valH ) return valD;
+	else if ( valE < valA && valE < valB && valE < valC && valE < valD && valE < valF && valE < valG && valE < valH ) return valE;
+	else if ( valF < valA && valF < valB && valF < valC && valF < valD && valF < valE && valF < valG && valF < valH ) return valF;
+	else if ( valG < valA && valG < valB && valG < valC && valG < valD && valG < valE && valG < valF && valG < valH ) return valG;
+	else return valH;
+}
+
+//Returns the greater of passed args. Overloaded for up to eight values.
+int Greater(int valA, int valB){
+	if ( valA > valB ) return valA;
+	else return valB;
+}
+
+int Greater(int valA, int valB, int valC){
+	if ( valA > valB && valA > valC ) return valA;
+	else if ( valB > valA && valB > valC ) return valB;
+	else return valC;
+}
+
+int Greater(int valA, int valB, int valC, in valD){
+	if ( valA > valB && valA > valC && valA > valD) return valA;
+	else if ( valB > valA && valB > valC && valB > valD ) return valB;
+	else if ( valC > valA && valC > valB && valC > valD ) return valC;
+	else return valD;
+}
+
+int Greater(int valA, int valB, int valC, in valD, int valE){
+	if ( valA > valB && valA > valC && valA > valD && valA > valE) return valA;
+	else if ( valB > valA && valB > valC && valB > valD && valB > valE ) return valB;
+	else if ( valC > valA && valC > valB && valC > valD && valC > valE ) return valC;
+	else if ( valD > valA && valD > valB && valD > valC && valD > valE ) return valD;
+	else return valE;
+}
+
+
+int Greater(int valA, int valB, int valC, in valD, int valE, int valF){
+	if ( valA > valB && valA > valC && valA > valD && valA > valE && valA > valF) return valA;
+	else if ( valB > valA && valB > valC && valB > valD && valB > valE && valB > valF ) return valB;
+	else if ( valC > valA && valC > valB && valC > valD && valC > valE && valC > valF ) return valC;
+	else if ( valD > valA && valD > valB && valD > valC && valD > valE && valD > valF ) return valD;
+	else if ( valE > valA && valE > valB && valE > valC && valE > valD && valE > valF ) return valE;
+	else return valF;
+}
+
+int Greater(int valA, int valB, int valC, in valD, int valE, int valF, int valG){
+	if ( valA > valB && valA > valC && valA > valD && valA > valE && valA > valF && valA > valG) return valA;
+	else if ( valB > valA && valB > valC && valB > valD && valB > valE && valB > valF && valB > valG ) return valB;
+	else if ( valC > valA && valC > valB && valC > valD && valC > valE && valC > valF && valC > valG ) return valC;
+	else if ( valD > valA && valD > valB && valD > valC && valD > valE && valD > valF && valD > valG ) return valD;
+	else if ( valE > valA && valE > valB && valE > valC && valE > valD && valE > valF && valE > valG ) return valE;
+	else if ( valF > valA && valF > valB && valF > valC && valF > valD && valF > valE && valF > valG ) return valF;
+	else return valG;
+}
+
+int Greater(int valA, int valB, int valC, in valD, int valE, int valF, int valG, int valH){
+	if ( valA > valB && valA > valC && valA > valD && valA > valE && valA > valF && valA > valG && valA > valH) return valA;
+	else if ( valB > valA && valB > valC && valB > valD && valB > valE && valB > valF && valB > valG && valB > valH ) return valB;
+	else if ( valC > valA && valC > valB && valC > valD && valC > valE && valC > valF && valC > valG && valC > valH) return valC;
+	else if ( valD > valA && valD > valB && valD > valC && valD > valE && valD > valF && valD > valG && valD > valH ) return valD;
+	else if ( valE > valA && valE > valB && valE > valC && valE > valD && valE > valF && valE > valG && valE > valH ) return valE;
+	else if ( valF > valA && valF > valB && valF > valC && valF > valD && valF > valE && valF > valG && valF > valH ) return valF;
+	else if ( valG > valA && valG > valB && valG > valC && valG > valD && valG > valE && valG > valF && valG > valH ) return valG;
+	else return valH;
+}
+
+//Returns if arg valA is less than all other values passed. Overloaded to work with two, to eight values.
+bool IsLess(int valA, int valB){
+	if ( valA < valB ) return true;
+	else return false;
+}
+
+bool IsLess(int valA, int valB, int valC){
+	if ( valA < valB && valA < valC ) return true;
+	else return false
+}
+
+bool IsLess(int valA, int valB, int valC, in valD){
+	if ( valA < valB && valA < valC && valA < valD) return true;
+	else return false;
+}
+
+bool IsLess(int valA, int valB, int valC, in valD, int valE){
+	if ( valA < valB && valA < valC && valA < valD && valA < valE) return true;
+	else return false;
+}
+
+
+bool IsLess(int valA, int valB, int valC, in valD, int valE, int valF){
+	if ( valA < valB && valA < valC && valA < valD && valA < valE && valA < valF) return true;
+	else return false;
+}
+
+bool IsLess(int valA, int valB, int valC, in valD, int valE, int valF, int valG){
+	if ( valA < valB && valA < valC && valA < valD && valA < valE && valA < valF && valA < valG) return true;
+	else return false;
+}
+
+bool IsLess(int valA, int valB, int valC, in valD, int valE, int valF, int valG, int valH){
+	if ( valA < valB && valA < valC && valA < valD && valA < valE && valA < valF && valA < valG && valA < valH) return true;
+	else return false;
+}
+
+//Returns if arg valA is greater than all other values passed. Overloaded for two, to eight values.
+bool IsMore(int valA, int valB){
+	if ( valA > valB ) return true;
+	else return false;
+}
+
+bool IsMore(int valA, int valB, int valC){
+	if ( valA > valB && valA > valC ) return true;
+	else return false
+}
+
+bool IsMore(int valA, int valB, int valC, in valD){
+	if ( valA > valB && valA > valC && valA > valD) return true;
+	else return false;
+}
+
+bool IsMore(int valA, int valB, int valC, in valD, int valE){
+	if ( valA > valB && valA > valC && valA > valD && valA > valE) return true;
+	else return false;
+}
+
+
+bool IsMore(int valA, int valB, int valC, in valD, int valE, int valF){
+	if ( valA > valB && valA > valC && valA > valD && valA > valE && valA > valF) return true;
+	else return false;
+}
+
+bool IsMore(int valA, int valB, int valC, in valD, int valE, int valF, int valG){
+	if ( valA > valB && valA > valC && valA > valD && valA > valE && valA > valF && valA > valG) return true;
+	else return false;
+}
+
+bool IsMore(int valA, int valB, int valC, in valD, int valE, int valF, int valG, int valH){
+	if ( valA > valB && valA > valC && valA > valD && valA > valE && valA > valF && valA > valG && valA > valH) return true;
+	else return false;
+}
+
+//Returns the lowest value in an array
+int Least(int arr){
+	int val = 214747.9999;
+	for ( int q = 0; q < SizeOfArray(arr); q++ ) {
+		if ( arr[q] < val ) val = arr[q];
+	}
+	return val;
+}
+
+//Returns the highest value in an array
+int Greatest(int arr){
+	int val = -214747.9999;
+	for ( int q = 0; q < SizeOfArray(arr); q++ ) {
+		if ( arr[q] > val ) val = arr[q];
+	}
+	return val;
+}
+
+//Returns the index holding the lowest value in an array
+//If the lowest value is present in two or more indices, this will return the lowest-numbered index of the set.
+int LeastIndex(int arr){
+	int val = 214747.9999;
+	int index;
+	for ( int q = 0; q < SizeOfArray(arr); q++ ) {
+		if ( arr[q] < val ) { 
+			val = arr[q];
+			index = q;
+		}
+	}
+	return index;
+}
+
+//Returns the index holding the highest value in an array
+//If the highest value is present in two or more indices, this will return the lowest-numbered index of the set.
+int GreatestIndex(int arr){
+	int val = -214747.9999;
+	int index;
+	for ( int q = 0; q < SizeOfArray(arr); q++ ) {
+		if ( arr[q] > val ) {
+			val = arr[q];
+			index = q;
+		}
+	}
+	return index;
+}
