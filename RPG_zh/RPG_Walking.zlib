@@ -1,0 +1,271 @@
+//Dragon Quest Walking
+
+int GetTerrainWalkFactor(int dir)
+{
+	int x; int y;
+	//types
+	const int WLK_PLAINS = 0;
+	const int WLK_FOREST = 5;
+	const int WLK_HILLS = 10;
+	const int WLK_BARRIER = 5;
+	const int WLK_SWAMP = 5;
+	
+	//combo inherent flags
+	const int CF_PLAINS = 0;
+	const int CF_FOREST = 150;
+	const int CF_HILLS = 151;
+	const int CF_BARRIER = 152;
+	const int CF_SWAMP = 153;
+	
+	switch(dir)
+	{
+		case DIR_UP:
+		{
+			x = 0; y = -16;
+			break;
+		}
+		case DIR_DOWN:
+		{
+			x = 0; y = 16;
+			break;
+		}
+		case DIR_LEFT:
+		{
+			x = -16; y = 0;
+			break;
+		}		
+		case DIR_RIGHT:
+		{
+			x = 16; y = 0;
+			break;
+		}
+	}
+	switch(Screen->ComboI[ComboAt(Link->X+x, Link->Y+y)])
+	{
+		case CF_PLAINS: return WLK_PLAINS;
+		case CF_FOREST: return WLK_FOREST;
+		case CF_HILLS: return WLK_HILLS;
+		case CF_BARRIER: return WLK_BARRIER;
+		case CF_SWAMP: return WLK_SWAMP;
+			
+		default: return 0;
+		
+	}
+	return 0;
+	
+}
+
+ragon Quest Walking
+
+int GetTerrainDamage(bool flash)
+{
+	int x; int y;
+	//types
+	const int DAMAGE_PLAINS = 0;
+	const int DAMAGE_FOREST = 5;
+	const int DAMAGE_HILLS = 10;
+	const int DAMAGE_BARRIER = 10;
+	const int DAMAGE_SWAMP = 1;
+	
+	//combo inherent flags
+	const int CF_PLAINS = 0;
+	const int CF_FOREST = 150;
+	const int CF_HILLS = 151;
+	const int CF_BARRIER = 152;
+	const int CF_SWAMP = 153;
+	
+	int damage;
+	
+	switch(Screen->ComboI[ComboAt(Link->X, Link->Y)])
+	{
+		case CF_PLAINS: damage = DAMAGE_PLAINS;
+		case CF_FOREST: damage = DAMAGE_FOREST;
+		case CF_HILLS: damage = DAMAGE_HILLS;
+		case CF_BARRIER: damage = DAMAGE_BARRIER;
+		case CF_SWAMP: damage = DAMAGE_SWAMP;
+			
+		default: return 0;
+		
+	}
+	
+	if ( flash )
+	{
+		if ( damage > 0 )
+		{
+			//FlashRed();
+		}
+	}
+		
+	return damage;
+	
+}
+
+const int WALK_STEP_DUR = 20; //frames;
+void Walk()
+{
+	int temp_frame; int temp_hold;
+	switch(Link->Dir)
+	{
+		case DIR_UP:
+		{
+			if ( Input->Press[CB_UP] )
+			{
+				if ( Screen->isSolid(Link->X, Link->Y-16) )
+				{
+					Audio->PlaySound(SFX_CANTWALK);
+					break;
+				}
+				else
+				{
+					while ( (frame < (GetTerrainWalkFactor(dir)) ) { ++temp_frame; Waitframe(); }
+					
+					do
+					{
+						--Link->Y;
+					} while ( Link->Y%16 );
+					temp_frame = 0;
+					//damage Link if he walked into a damage terrain type.
+					//and flash the screen.
+					Link->HP -= GetTerrainDamage(true);
+					break;
+					
+				}
+				
+			}
+			else if ( Input->Hold[CB_UP] )
+			{
+				while( frame < (WALK_STEP_DUR) ) { ++temp_frame; Waitframe(); }
+				Input->Hold[CB_UP] = false; //force it back to press by unsetting both/
+				Input->Press[CB_UP] = false; //on the next frame, it should register as a new press. 
+				//Waitframe();
+				//temp_frame = 0;
+				//damage Link if he walked into a damage terrain type.
+				//and flash the screen.
+				break;
+			}
+			else break;
+		}
+		case DIR_DOWN:
+		{
+			if ( Input->Press[CB_DOWN] )
+			{
+				if ( Screen->isSolid(Link->X, Link->Y+16) )
+				{
+					Audio->PlaySound(SFX_CANTWALK);
+					break;
+				}
+				else
+				{
+					while ( (frame < GetTerrainWalkFactor(dir)) ) { ++temp_frame; Waitframe(); }
+					
+					do
+					{
+						++Link->Y;
+					} while ( Link->Y%16 );
+					temp_frame = 0;
+					//damage Link if he walked into a damage terrain type.
+					//and flash the screen.
+					Link->HP -= GetTerrainDamage(true);
+					break;
+					
+				}
+				
+			}
+			else if ( Input->Hold[CB_DOWN] )
+			{
+
+				while( frame<(WALK_STEP_DUR+GetTerrainWalkFactor(dir)) ) { ++temp_frame; Waitframe(); }
+				Input->Hold[CB_DOWN] = false; //force it back to press by unsetting both/
+				Input->Press[CB_DOWN] = false; //on the next frame, it should register as a new press. 
+				//Waitframe();
+				//temp_frame = 0;
+				//damage Link if he walked into a damage terrain type.
+				//and flash the screen.
+				//Link->HP -= GetTerrainDamage(true);
+				
+				break;
+			}
+			else break;
+		}
+		case DIR_LEFT:
+		{
+			if ( Input->Press[CB_LEFT] )
+			{
+				if ( Screen->isSolid(Link->X-16, Link->Y) )
+				{
+					Audio->PlaySound(SFX_CANTWALK);
+					break;
+				}
+				else
+				{
+					while ( (frame<(GetTerrainWalkFactor(dir)) ) { ++temp_frame; Waitframe(); }
+					
+					do
+					{
+						--Link->X;
+					} while ( Link->X%16 );
+					temp_frame = 0;
+					//damage Link if he walked into a damage terrain type.
+					//and flash the screen.
+					Link->HP -= GetTerrainDamage(true);
+					break;
+					
+				}
+				
+			}
+			else if ( Input->Hold[CB_LEFT] )
+			{
+				Input->Hold[CB_LEFT] = false; //force it back to press by unsetting both/
+				Input->Press[CB_LEFT] = false; //on the next frame, it should register as a new press. 
+				//Waitframe();
+				//temp_frame = 0;
+				//damage Link if he walked into a damage terrain type.
+				//and flash the screen.
+				//Link->HP -= GetTerrainDamage(true);
+				break;
+			}
+			else break;
+		}
+		case DIR_RIGHT:
+		{
+			if ( Input->Press[CB_RIGHT] )
+			{
+				if ( Screen->isSolid(Link->X+16, Link->Y) )
+				{
+					Audio->PlaySound(SFX_CANTWALK);
+					break;
+				}
+				else
+				{
+					
+					while ( (frame<(GetTerrainWalkFactor(dir)) ) { ++temp_frame; Waitframe(); }
+					
+					do
+					{
+						++Link->X;
+					} while ( Link->X%16 );
+					temp_frame = 0;
+					//damage Link if he walked into a damage terrain type.
+					//and flash the screen.
+					Link->HP -= GetTerrainDamage(true);
+					break;
+					
+				}
+				
+			}
+			else if ( Input->Hold[CB_RIGHT] )
+			{
+				Input->Hold[CB_RIGHT] = false; //force it back to press by unsetting both/
+				Input->Press[CB_RIGHT] = false; //on the next frame, it should register as a new press. 
+				//Waitframe();
+					
+				//temp_frame = 0;
+				//damage Link if he walked into a damage terrain type.
+				//and flash the screen.
+				//Link->HP -= GetTerrainDamage(true);
+				break;
+			}
+			else break;
+		}
+	}
+}
