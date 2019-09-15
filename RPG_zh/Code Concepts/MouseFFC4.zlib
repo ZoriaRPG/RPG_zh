@@ -1,0 +1,121 @@
+int FFCsRunning[33];
+int GlobalRAM[214747];
+
+//Global RAM indices.
+const int GR_SCREENSHANGED = 0;
+const int GR_DMAPCHANGED = 2;
+const int GR_LASTSCREEN = 1;
+const int GR_LASTDMAP = 3;
+const int GR_MAPCHANGED = 4;
+const int GR_LASTMAP = 5;
+
+int GRAM(int index){
+    return GlobalRAM[index];
+}
+
+void GRAM(int index, int val){
+    GlobalRAM[index] = val;
+}
+
+bool ScreenChanged(){
+    if ( Game->GetCurScreen() == GRAM(GR_LASTSCREEN) ) {
+        GRAM(GR_LASTSCREEN, Game->GetCurScreen());
+        return true;
+    }
+    return false;
+}
+
+bool DMapChanged(){
+    if ( Game->GetCurDMap() == GRAM(GR_LASTDMAP) ) {
+        GRAM(GR_LASTDMAP, Game->GetCurDMap());
+        return true;
+    }
+    return false;
+}
+
+bool MapChanged(){
+    if ( Game->GetCurMap() == GRAM(GR_LASTMAP) ) {
+        GRAM(GR_LASTMAP, Game->GetCurMap());
+        return true;
+    }
+    return false;
+}
+
+//Call before Waitdraw() in your global active script.
+void UpdateMouseFFCs(){
+    if ( ScreenChanged() || DmapChanged() ) {
+        for ( int q = 1; q <= SizeOfArray(FFCsRunning); q++ ){
+            FFCsRunning[q] = 0;
+        }
+    }
+}
+
+void MouseOvers(lweapon l){
+    if ( !l->IsValid() ) {
+        l = Screen->CreateLWeapon(LW_SCRIPT10);
+    }
+    l->X = Link->InputMouseX;
+    l->Y = Link->InputMouseY;
+}
+
+//Put in global script
+
+global script active{
+    void run() {
+        lweapon mouse;
+        while(true){
+            MouseOvers(mouse);
+            UpdateMouseFFCs();
+            MouseFFC(mouse);        
+            Waitdraw();
+            //if ( mouse0>IsValid() ) Remove(mouse);
+            Waitframe();
+        }
+    }
+}
+
+
+
+//Call in ffc script as: WaitForMouse(this);
+
+void WaitForMouse(ffc thisff){
+    while ( !FFCsRunning[WhatFFCIsThis(thisff->Script, thisff->X, thisff->Y, thisff->Data)] ) Waitframe();
+}
+
+///Global functions
+
+void MouseFFC(lweapon l){
+    for ( int q = 1; q <= 32; q++ ) {
+        ffc f = Screen->LoadFFC(q);
+        if ( Collision(l,f) && Link->InputMouseB ) {
+            if ( !FFCsRunning[q] ) FFCsRunning[q] = 1;
+            else FFCsRunning[q] = 0;
+        }
+    }
+}
+            
+ 
+
+
+int WhatFFCIsThis(int ffscript, int ffx, int ffy, int ffdata){
+    int ff[20];
+    for ( int q = 1; q <= 32; q++ ) {
+        ffc what = Screen->LoadFFC(q);
+        
+        ff[0] = what->X;
+        ff[1] = what->Y;
+        ff[2] = what->Script;
+        ff[3] = what->Data;
+        
+        if ( ff[0] == ffx && ff[1] == ffy && ff[2] == ffscript && ff[3] == ffdata) return q;
+    }
+    return 0;
+}
+
+int WhatFFCIsThis(ffc fw){
+    for ( int q = 1; q <= 32; q++ ) {
+        ffc what = Screen->LoadFFC(q);
+        if ( fw == what ) return q;
+    }
+    return 0;
+}

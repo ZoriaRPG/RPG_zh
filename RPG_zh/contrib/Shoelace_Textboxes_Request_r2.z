@@ -1,0 +1,158 @@
+****
+ //D0 initial message
+ //D1 
+ //D2
+ //D3 Initial delay: The present config used 0. Value is in frames.
+ //D4 Second delay: Has been 240 this far.
+ //D5 If you want to display more than one message worth of text, and all the messages are sequential, 
+    //this value is the number of ADDITIONAL messages in sequence. This, a value of 1, will play message + message+1.
+    //A value of 0 indicates no further strings.
+ffc script NPC
+{
+    void run(int message, int typeOf, int xPos, int init_delay, int second_delay, int number_cont_strings)
+    {
+        int slot;
+        while(true)
+        {
+            if(StartTalking(this))
+            {
+                if(typeOf == 0)
+                {
+                // Display the assigned message
+                slot=ShowMessage(message, TANGO_SLOT_NORMAL, STYLE_PLAIN, 32, 32);
+               
+                // If the message was displayed successfully...
+                if(slot!=TANGO_INVALID)
+                {
+                    // Wait for it to be closed
+                    while(Tango_SlotIsActive(slot))
+                        {UnpressButtons();
+                        Waitframe();}
+                }
+               
+                StopTalking();
+                }
+           
+            else if (typeOf == 1)
+            {
+   
+                // Display the assigned message
+                if ( number_cont_strings ) slot = ShowMovingMessage(message, TANGO_SLOT_CLOUDPOPUP, STYLE_CLOUDPOPUP, xPos, number_cont_strings, init_delay, second_delay);
+                else slot = ShowMovingMessage(message, TANGO_SLOT_CLOUDPOPUP, STYLE_CLOUDPOPUP, xPos, init_delay, second_delay);
+
+                
+            // If the message was displayed successfully...
+                if(slot!=TANGO_INVALID)
+                {
+                    // Wait for it to be closed
+                    while(Tango_SlotIsActive(slot))
+                        {
+                        Waitframe();}
+                }
+               
+                StopTalking();
+              }
+            }
+            Waitframe();
+        }
+    }
+   
+    // Unpress directional inputs
+    void UnpressButtons()
+    {
+        Link->InputUp = false;
+        Link->InputDown = false;
+        Link->InputLeft = false;
+        Link->InputRight = false;
+        Link->PressUp = false;
+        Link->PressDown = false;
+        Link->PressLeft = false;
+        Link->PressRight = false;
+    }
+}
+ 
+ 
+ 
+void SetUpCloudPopupStyle()
+{
+    Tango_SetStyleAttribute(STYLE_CLOUDPOPUP, TANGO_STYLE_BACKDROP_TYPE, TANGO_BACKDROP_COMBO_TRANS);
+    Tango_SetStyleAttribute(STYLE_CLOUDPOPUP, TANGO_STYLE_BACKDROP_COMBO, 13532);
+    Tango_SetStyleAttribute(STYLE_CLOUDPOPUP, TANGO_STYLE_BACKDROP_WIDTH, 6);
+    Tango_SetStyleAttribute(STYLE_CLOUDPOPUP, TANGO_STYLE_BACKDROP_HEIGHT, 2);
+   
+    Tango_SetStyleAttribute(STYLE_CLOUDPOPUP, TANGO_STYLE_TEXT_FONT, TANGO_FONT_SMALL_EXTENDED);
+    Tango_SetStyleAttribute(STYLE_CLOUDPOPUP, TANGO_STYLE_TEXT_X, 8);
+    Tango_SetStyleAttribute(STYLE_CLOUDPOPUP, TANGO_STYLE_TEXT_Y, 6);
+    Tango_SetStyleAttribute(STYLE_CLOUDPOPUP, TANGO_STYLE_TEXT_WIDTH, 92);
+    Tango_SetStyleAttribute(STYLE_CLOUDPOPUP, TANGO_STYLE_TEXT_HEIGHT, 16);
+    Tango_SetStyleAttribute(STYLE_CLOUDPOPUP, TANGO_STYLE_TEXT_COLOR, 110);
+    //Tango_SetStyleAttribute(STYLE_CLOUDPOPUP, TANGO_STYLE_TEXT_SPEED, 0);
+    Tango_SetStyleAttribute(STYLE_CLOUDPOPUP, TANGO_STYLE_TEXT_SFX, 0);
+   
+    Tango_SetStyleAttribute(STYLE_CLOUDPOPUP, TANGO_STYLE_FLAGS,
+        TANGO_FLAG_CARRY_OVER);
+}
+ 
+ 
+int ShowMovingMessage(int message, int type, int style, float x)
+{
+    int slot=Tango_GetFreeSlot(type);
+    if(slot==TANGO_INVALID)
+        return TANGO_INVALID;
+    
+    int movement1[]="@while(@greater(@y 130) @inc(@y -3))";
+    int movement2[]="@delay(240)@while(@less(@y 168) @inc(@y 3))";
+    Tango_ClearSlot(slot);
+    Tango_LoadString(slot, movement1);
+    Tango_AppendMessage(slot, message);
+    Tango_AppendString(slot, movement2);
+    Tango_SetSlotStyle(slot, style);
+    Tango_SetSlotPosition(slot, x, 168);
+    Tango_ActivateSlot(slot);
+    
+    return slot;
+}
+
+int ShowMovingMessage(int message, int type, int style, float x, int additional_messages, int init_delay, int second_delay)
+{
+    Tango_D[0] = init_delay;
+    Tango_D[1] = second_delay;
+    int slot=Tango_GetFreeSlot(type);
+    if(slot==TANGO_INVALID)
+        return TANGO_INVALID;
+    
+    int movement1[]="@delay(@d0)@while(@greater(@y 130) @inc(@y -3))";
+    int movement2[]="@delay(@d1)@while(@less(@y 168) @inc(@y 3))";
+    Tango_ClearSlot(slot);
+    Tango_LoadString(slot, movement1);
+    for ( int q = message; q <= message+additional_messages; q++ ) {
+            Tango_AppendMessage(slot, q);
+    }
+    Tango_AppendString(slot, movement2);
+    Tango_SetSlotStyle(slot, style);
+    Tango_SetSlotPosition(slot, x, 168);
+    Tango_ActivateSlot(slot);
+    
+    return slot;
+}
+
+int ShowMovingMessage(int message, int type, int style, float x, int init_delay, int second_delay)
+{
+    Tango_D[0] = init_delay;
+    Tango_D[1] = second_delay;
+    int slot=Tango_GetFreeSlot(type);
+    if(slot==TANGO_INVALID)
+        return TANGO_INVALID;
+    
+    int movement1[]="@delay(@d0)@while(@greater(@y 130) @inc(@y -3))";
+    int movement2[]="@delay(@d1)@while(@less(@y 168) @inc(@y 3))";
+    Tango_ClearSlot(slot);
+    Tango_LoadString(slot, movement1);
+    Tango_AppendMessage(slot, message);
+    Tango_AppendString(slot, movement2);
+    Tango_SetSlotStyle(slot, style);
+    Tango_SetSlotPosition(slot, x, 168);
+    Tango_ActivateSlot(slot);
+    
+    return slot;
+}

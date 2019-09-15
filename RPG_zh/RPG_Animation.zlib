@@ -42,7 +42,7 @@ void ScreenPan(int Layer, int Map, int StartScreen, int EndScreen, int Duration)
         }
 }
  
-//Glides from one screen to another at a set speed
+//Glides from one screen to another at a set speed (pizels per frame)
 void ScreenPan2(int Layer, int Map, int StartScreen, int EndScreen, int Speed){
         int StartX = StartScreen%16*256;
         int StartY = Floor(StartScreen/16)*176;

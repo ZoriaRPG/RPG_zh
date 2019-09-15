@@ -1,0 +1,36 @@
+int Collectibles[40];
+//Array indices.
+const int COLL_HCP = 0; //Heart Container Piece
+const int COLL_MCP = 1; //Magic Container or Piece
+const int COLL_MAX = 20; //COLL_MAX + type.
+
+//Set up the maximum number of items in the game.
+const int MAX_HCP = 32; //The number of heart pieces in your game.
+const int MAX_MCP = 16; //The number of magic containers in your game.
+
+
+
+//Call in the run() function of the global active script (NOT in the while loop).
+void SetCollMaximums(){
+    Collectibles[MAX+COLL_HCP] = MAX_HCP;
+    Collectibles[MAX+COLL_MCP] = MAX_MCC;
+}
+
+//Update the collected items when picking up one collectible.
+//Put in the pickup script of an item.
+void CollectiblePickup(int type){
+    Collectibles(type)++;
+}
+
+//Return how many objects of a given type the player has collected.
+int Coll(int type){
+    return Collectibles[type];
+}
+
+//Return how many items of a given type remaqin to be collected.
+int CollRemain(int type){
+    return Collectibles[COLL_MAX+type] - Collectibles[type];
+}
+
+
+//Show a string that tells the player how many of a given type of item remain.

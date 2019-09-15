@@ -1,12 +1,12 @@
 //import "std.zh"
-import "string.zh"
-import "ghost.zh"
-import "ffcscript.zh"
-import "stdCombos.zh" //The library RPG_Experimental.zh imports this.
+//import "string.zh"
+//import "Ghost.zh"
+//import "ffcscript.zh"
+//import "stdCombos.zh" //The library RPG_Experimental.zh imports this.
 
 //////////////////////////////////////////
 ///     ZORIA RPG SYSTEM FRAMEWORK     ///
-///   Alpha v.0.97.1  2nd June, 2015   ///
+///   Alpha v.0.97.7 - 22 Nov., 2015   ///
 //////////////////////////////////////////
 
 
@@ -94,33 +94,24 @@ import "RPG_zh/RPG_MathRNG.zlib"
 //Merged functions out of RPG_Experimental_Ext.zlib
 //Added RPG_Equipment.zlib
 import "RPG_zh/RPG_Drawing.zlib"
-//import "RPG_zh/RPG_Teleport.zlib" //Requires Tango, and other materials.
+import "RPG_zh/RPG_Teleport.zlib"
 
 //0.96.9.1
 
 import "RPG_zh/RPG_Screens.zlib"
 
-//0.96.9/1
-import "RPG_zh/RPG_Compat.zlib" //Compatibility functions. Requires if not using stdArguments.
-
 //0.97.1
 import "RPG_zh/RPG_Constants.zlib"
+
+//0.97.2
+import "RPG_zh/RPG_Version.zlib"
+//import "RPG_zh/RPG_Player_Sprites.zlib" //Call this line from *inside* the global active script, so that the functions are local to it, and the lweapon pointer is valid.
 
 ///////////////////////////
 /// General Use Scripts ///
 ///////////////////////////
 
-/////////////////////
-/// Sound Effects ///
-/////////////////////
 
-// Ties SFX to an item, that is otherwise normally hardcoded. used for the Sonic Wand in LoE.
-
-item script playSound{
-    void run(int sfx){
-        Game->PlaySound(sfx);
-    }
-}
 
 /////////////////////
 /// WEAPON SYSTEM ///
@@ -174,27 +165,39 @@ item script active{
 //////////////////////////////
 
 ///////////////////////////
-/// Programming Credits ///
-///////////////////////////////////////////////////////////////////////
-/// Aevin (Misc RPG-related ideas.)                                 ///
-/// Alucard (Various functions, and NWS v2 contributions.)          ///
-/// blackbishop89 (Forum discussions, and assistance.)              ///
-/// Gleeok (Assorted functions, that led to this.)                  ///
-/// grayswandir (Assorted functions, and discussions thereof.)      ///        
-/// jsm116 (FFCs and FFC functions.)                                ///
-/// MasterManiac (NWS v1.)                                          ///
-/// MoscowModder (Too much to list.)                                ///
-/// Saffith (Tango, Ghost, FFCs, and JRPG Menu basic framework.)    ///
-/// SUCCESSOR (Assorted functions, and discussion thereof.)         ///
-/// Zecora (Forum discussions, and assistance.)                     ///
-/// ZoriaRPG (project leader, and general concept; many functions.) ///
-///////////////////////////////////////////////////////////////////////
+/// Development Credits ///
+/////////////////////////////////////////////////////////////////////////
+/// Aevin (Misc RPG-related ideas.)                                   ///
+/// Alucard648 (Various functions, NWSv2, and stdCombos/stdWeapons.)  ///
+/// blackbishop89 (Forum discussions, and assistance.)                ///
+/// BlueKnight (Scrolling models.)                                    ///
+/// Binx (Forum discussions, gen contributions.)                      ///
+/// coolgamer012345 (Code discussions.)                               ///
+/// Gleeok (Assorted functions, that led to this. 'Baking' ZC great.  ///
+/// grayswandir (FFC triggers, functions, and discussions thereof.)   ///        
+/// jsm116 (FFCs and FFC functions.)                                  ///
+/// Lejes (Code models, and discussions thereof.)                     ///
+/// MasterManiac (NWS v1.)                                            ///
+/// Moosh (Code models, functions, and general awesomeness.)          ///
+/// MoscowModder (Too much to list.)                                  ///
+/// Saffith (Tango, Ghost, FFCs, and JRPG Menu basic framework.)      ///
+/// SUCCESSOR (Assorted functions, and discussion thereof.)           ///
+/// TeamUDF (Listening to me discuss this at length, and feedback.)   ///
+/// ywkls (Documentation, and discussion group contributions.         ///
+/// Zim (Scrolling models.)                                           ///
+/// Zecora (Forum discussions, and assistance.)                       ///
+/// ZoriaRPG (Project leader, and general concept; gen. development.) ///
+////////////////////////////////////////////////////////////////////////
 
 /////////////////////////
 /// Testing and Ideas ///
-////////////////////////////////////////////////////////////////////////
-/// MabusTheDark (Discussion, and script testing)                    ///
-/// TeamUDF (Inspirational, and conversational discussion of ideas.) ///
+/////////////////////////////////////////////////////////////////////////
+/// coolgamer012345 (Idea bouncing.)                                  ///
+/// Fitz (Discussions.)                                               ///
+/// judasrising (Discussions.)                                        ///
+/// MabusTheDark (Discussion, and script testing)                     ///
+/// ShadowTiger (Regular discussions, and being an amasing person.)   ///
+/// TeamUDF (Inspirational, and conversational discussion of ideas.)  ///
 ////////////////////////////////////////////////////////////////////////
 
 // If you feel that you belong on this list, please PM ZoriaRPG. 
@@ -205,4 +208,4 @@ item script active{
 //as the datatype handler associates '.z' with archived files.
 //The '.z' archive files operate on the *nix libary 'zlib', which is *not* a filetype.
 //Thus, as a sort of self-amusing joke, I started naming ZScript files with a '.zlib' extension.
-//I also pondered using '.squid', b ut I';ll save that for another day.
+//I also pondered using '.squid', but I''ll save that for another day.

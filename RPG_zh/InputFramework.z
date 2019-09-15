@@ -1,0 +1,620 @@
+// BUTTON INPUT CONSTANTS \\
+
+
+// DON'T EDIT THESE
+
+// Directional Hold Inputs:
+const int INPUT_UP = 0;
+const int INPUT_DOWN = 1;
+const int INPUT_LEFT = 2;
+const int INPUT_RIGHT = 3;
+// Directional Pressed Inputs:
+const int PRESS_UP = 4;
+const int PRESS_DOWN = 5;
+const int PRESS_LEFT = 6;
+const int PRESS_RIGHT = 7;
+// Directional Unpressed Inputs:
+const int UNPRESS_UP = 8;
+const int UNPRESS_DOWN = 9;
+const int UNPRESS_LEFT = 10;
+const int UNPRESS_RIGHT = 11;
+
+
+// Axis Hold Inputs:
+const int INPUT_AXIS_UP = 12;
+const int INPUT_AXIS_DOWN = 13;
+const int INPUT_AXIS_LEFT = 14;
+const int INPUT_AXIS_RIGHT = 15;
+// Axis Pressed Inputs:
+const int PRESS_AXIS_UP = 16;
+const int PRESS_AXIS_DOWN = 17;
+const int PRESS_AXIS_LEFT = 18;
+const int PRESS_AXIS_RIGHT = 19;
+// Axis Unpressed Inputs:
+const int UNPRESS_AXIS_UP = 20;
+const int UNPRESS_AXIS_DOWN = 21;
+const int UNPRESS_AXIS_LEFT = 22;
+const int UNPRESS_AXIS_RIGHT = 23;
+
+
+// A/B/L/R Hold Inputs:
+const int INPUT_A = 24;
+const int INPUT_B = 25;
+const int INPUT_L = 26;
+const int INPUT_R = 27;
+// A/B/L/R Pressed Inputs:
+const int PRESS_A = 28;
+const int PRESS_B = 29;
+const int PRESS_L = 30;
+const int PRESS_R = 31;
+// A/B/L/R Unpressed Inputs:
+const int UNPRESS_A = 32;
+const int UNPRESS_B = 33;
+const int UNPRESS_L = 34;
+const int UNPRESS_R = 35;
+
+
+// EX1/EX2/EX3/EX4 Hold Inputs:
+const int INPUT_EX1 = 36;
+const int INPUT_EX2 = 37;
+const int INPUT_EX3 = 38;
+const int INPUT_EX4 = 39;
+// EX1/EX2/EX3/EX4 Pressed Inputs:
+const int PRESS_EX1 = 40;
+const int PRESS_EX2 = 41;
+const int PRESS_EX3 = 42;
+const int PRESS_EX4 = 43;
+// EX1/EX2/EX3/EX4 Unpressed Inputs:
+const int UNPRESS_EX1 = 44;
+const int UNPRESS_EX2 = 45;
+const int UNPRESS_EX3 = 46;
+const int UNPRESS_EX4 = 47;
+
+
+// Start/Map Hold Inputs:
+const int INPUT_START = 48;
+const int INPUT_MAP = 49;
+// Start/Map Pressed Inputs:
+const int PRESS_START = 50;
+const int PRESS_MAP = 51;
+// Start/Map Unpressed Inputs:
+const int UNPRESS_START = 52;
+const int UNPRESS_MAP = 53;
+
+
+// Left/Right/Middle Mouse Hold Inputs:
+const int INPUT_LEFTMOUSE = 54;
+const int INPUT_RIGHTMOUSE = 55;
+const int INPUT_MIDDLEMOUSE = 56;
+// Left/Right/Middle Mouse Pressed Inputs:
+const int PRESS_LEFTMOUSE = 57;
+const int PRESS_RIGHTMOUSE = 58;
+const int PRESS_MIDDLEMOUSE = 59;
+// Left/Right/Middle Mouse Unpressed Inputs:
+const int UNPRESS_LEFTMOUSE = 60;
+const int UNPRESS_RIGHTMOUSE = 61;
+const int UNPRESS_MIDDLEMOUSE = 62;
+
+
+// Up/Down/None MouseScroll Hold Inputs:
+const int INPUT_SCROLL_UP = 63;
+const int INPUT_SCROLL_DOWN = 64;
+const int INPUT_SCROLL_NONE = 65;
+// Up/Down/None MouseScroll Pressed Inputs:
+const int PRESS_SCROLL_UP = 66;
+const int PRESS_SCROLL_DOWN = 67;
+const int PRESS_SCROLL_NONE = 68;
+// Up/Down/None MouseScroll Unpressed Inputs:
+const int UNPRESS_SCROLL_UP = 69;
+const int UNPRESS_SCROLL_DOWN = 70;
+const int UNPRESS_SCROLL_NONE = 71;
+
+
+// END OF CONSTANTS \\
+
+
+
+// Link's inputs. Use the INPUT_, PRESS_ and UNPRESS_ constants with this.
+bool LinkInputs[71];
+
+// Array of inputs used to allow "unpressed" buttons to work.
+bool TempInputs[71];
+
+
+// The Mouse's current X position.
+float MouseX;
+// The Mouse's current Y position.
+float MouseY;
+
+
+// Put this before any code in a loop.
+void SetInputs()
+{
+	// Directional inputs.
+	LinkInputs[INPUT_UP] 		= 	Link->InputUp;
+	LinkInputs[INPUT_DOWN] 		= 	Link->InputDown;
+	LinkInputs[INPUT_LEFT] 		= 	Link->InputLeft;
+	LinkInputs[INPUT_RIGHT] 		=	Link->InputRight;
+	
+	LinkInputs[PRESS_UP] 		= 	Link->PressUp;
+	LinkInputs[PRESS_DOWN] 	= 	Link->PressDown;
+	LinkInputs[PRESS_LEFT] 	=	Link->PressLeft;
+	LinkInputs[PRESS_RIGHT] 	= 	Link->PressRight;
+	
+	if(LinkInputs[INPUT_UP])	
+	{
+		TempInputs[UNPRESS_UP] = true;
+	}
+	if(TempInputs[UNPRESS_UP] == true && LinkInputs[INPUT_UP] == false)
+	{
+		TempInputs[UNPRESS_UP] = false;
+		LinkInputs[UNPRESS_UP] = true;
+	}
+	
+	if(LinkInputs[INPUT_DOWN])	
+	{
+		TempInputs[UNPRESS_DOWN] = true;
+	}
+	if(TempInputs[UNPRESS_DOWN] == true && LinkInputs[INPUT_DOWN] == false)
+	{
+		TempInputs[UNPRESS_DOWN] = false;
+		LinkInputs[UNPRESS_DOWN] = true;
+	}
+	
+	if(LinkInputs[INPUT_LEFT])	
+	{
+		TempInputs[UNPRESS_LEFT] = true;
+	}
+	if(TempInputs[UNPRESS_LEFT] == true && LinkInputs[INPUT_LEFT] == false)
+	{
+		TempInputs[UNPRESS_LEFT] = false;
+		LinkInputs[UNPRESS_LEFT] = true;
+	}
+	
+	if(LinkInputs[INPUT_RIGHT])	
+	{
+		TempInputs[UNPRESS_RIGHT] = true;
+	}
+	if(TempInputs[UNPRESS_RIGHT] == true && LinkInputs[INPUT_RIGHT] == false)
+	{
+		TempInputs[UNPRESS_RIGHT] = false;
+		LinkInputs[UNPRESS_RIGHT] = true;
+	}
+	
+	
+	// Axis inputs.
+	LinkInputs[INPUT_AXIS_UP] 		= 	Link->InputAxisUp;
+	LinkInputs[INPUT_AXIS_DOWN]		=	Link->InputAxisDown;
+	LinkInputs[INPUT_AXIS_LEFT] 		= 	Link->InputAxisLeft;
+	LinkInputs[INPUT_AXIS_RIGHT]		= 	Link->InputAxisRight;
+	
+	LinkInputs[PRESS_AXIS_UP] 	= 	Link->PressAxisUp;
+	LinkInputs[PRESS_AXIS_DOWN] 	= 	Link->PressAxisDown;
+	LinkInputs[PRESS_AXIS_LEFT] 	= 	Link->PressAxisLeft;
+	LinkInputs[PRESS_AXIS_RIGHT]	= 	Link->PressAxisRight;
+	
+	if(LinkInputs[INPUT_AXIS_UP])	
+	{
+		TempInputs[UNPRESS_AXIS_UP] = true;
+	}
+	if(TempInputs[UNPRESS_AXIS_UP] == true && LinkInputs[INPUT_AXIS_UP] == false)
+	{
+		TempInputs[UNPRESS_AXIS_UP] = false;
+		LinkInputs[UNPRESS_AXIS_UP] = true;
+	}
+	
+	if(LinkInputs[INPUT_AXIS_DOWN])	
+	{
+		TempInputs[UNPRESS_AXIS_DOWN] = true;
+	}
+	if(TempInputs[UNPRESS_AXIS_DOWN] == true && LinkInputs[INPUT_AXIS_DOWN] == false)
+	{
+		TempInputs[UNPRESS_AXIS_DOWN] = false;
+		LinkInputs[UNPRESS_AXIS_DOWN] = true;
+	}
+	
+	if(LinkInputs[INPUT_AXIS_LEFT])	
+	{
+		TempInputs[UNPRESS_AXIS_LEFT] = true;
+	}
+	if(TempInputs[UNPRESS_AXIS_LEFT] == true && LinkInputs[INPUT_AXIS_LEFT] == false)
+	{
+		TempInputs[UNPRESS_AXIS_LEFT] = false;
+		LinkInputs[UNPRESS_AXIS_LEFT] = true;
+	}
+	
+	if(LinkInputs[INPUT_AXIS_RIGHT])	
+	{
+		TempInputs[UNPRESS_AXIS_RIGHT] = true;
+	}
+	if(TempInputs[UNPRESS_AXIS_RIGHT] == true && LinkInputs[INPUT_AXIS_RIGHT] == false)
+	{
+		TempInputs[UNPRESS_AXIS_RIGHT] = false;
+		LinkInputs[UNPRESS_AXIS_RIGHT] = true;
+	}
+	
+	
+	// A/B/L/R inputs.
+	LinkInputs[INPUT_A] 		=	Link->InputA;
+	LinkInputs[INPUT_B] 		= 	Link->InputB;
+	LinkInputs[INPUT_L] 		= 	Link->InputL;
+	LinkInputs[INPUT_R] 		= 	Link->InputR;
+	
+	LinkInputs[PRESS_A] 	= 	Link->PressA;
+	LinkInputs[PRESS_B]	= 	Link->PressB;
+	LinkInputs[PRESS_L] 	= 	Link->PressL;
+	LinkInputs[PRESS_R]	= 	Link->PressR;
+	
+	LinkInputs[UNPRESS_A] = false;
+	LinkInputs[UNPRESS_B] = false;
+	LinkInputs[UNPRESS_L] = false;
+	LinkInputs[UNPRESS_R] = false;
+	
+	
+	if(LinkInputs[INPUT_A])	
+	{
+		TempInputs[UNPRESS_A] = true;
+	}
+	if(TempInputs[UNPRESS_A] == true && LinkInputs[INPUT_A] == false)
+	{
+		TempInputs[UNPRESS_A] = false;
+		LinkInputs[UNPRESS_A] = true;
+	}
+	
+	if(LinkInputs[INPUT_B])	
+	{
+		TempInputs[UNPRESS_B] = true;
+	}
+	if(TempInputs[UNPRESS_B] == true && LinkInputs[INPUT_B] == false)
+	{
+		TempInputs[UNPRESS_B] = false;
+		LinkInputs[UNPRESS_B] = true;
+	}
+	
+	if(LinkInputs[INPUT_L])	
+	{
+		TempInputs[UNPRESS_L] = true;
+	}
+	if(TempInputs[UNPRESS_L] == true && LinkInputs[INPUT_L] == false)
+	{
+		TempInputs[UNPRESS_L] = false;
+		LinkInputs[UNPRESS_L] = true;
+	}
+	
+	if(LinkInputs[INPUT_R])	
+	{
+		TempInputs[UNPRESS_R] = true;
+	}
+	if(TempInputs[UNPRESS_R] == true && LinkInputs[INPUT_R] == false)
+	{
+		TempInputs[UNPRESS_R] = false;
+		LinkInputs[UNPRESS_R] = true;
+	}
+	
+	
+	// EX1/EX2/EX3/EX4 inputs.
+	LinkInputs[INPUT_EX1]		= 	Link->InputEx1;
+	LinkInputs[INPUT_EX2]		= 	Link->InputEx2;
+	LinkInputs[INPUT_EX3] 		= 	Link->InputEx3;
+	LinkInputs[INPUT_EX4] 		= 	Link->InputEx4;
+	
+	LinkInputs[PRESS_EX1] 	=	Link->PressEx1;
+	LinkInputs[PRESS_EX2]		= 	Link->PressEx2;
+	LinkInputs[PRESS_EX3] 	= 	Link->PressEx3;
+	LinkInputs[PRESS_EX4]		= 	Link->PressEx4;
+	
+	if(LinkInputs[INPUT_EX1])	
+	{
+		TempInputs[UNPRESS_EX1] = true;
+	}
+	if(TempInputs[UNPRESS_EX1] == true && LinkInputs[INPUT_EX1] == false)
+	{
+		TempInputs[UNPRESS_EX1] = false;
+		LinkInputs[UNPRESS_EX1] = true;
+	}
+	
+	if(LinkInputs[INPUT_EX2])	
+	{
+		TempInputs[UNPRESS_EX2] = true;
+	}
+	if(TempInputs[UNPRESS_EX2] == true && LinkInputs[INPUT_EX2] == false)
+	{
+		TempInputs[UNPRESS_EX2] = false;
+		LinkInputs[UNPRESS_EX2] = true;
+	}
+	
+	if(LinkInputs[INPUT_EX3])	
+	{
+		TempInputs[UNPRESS_EX3] = true;
+	}
+	if(TempInputs[UNPRESS_EX3] == true && LinkInputs[INPUT_EX3] == false)
+	{
+		TempInputs[UNPRESS_EX3] = false;
+		LinkInputs[UNPRESS_EX3] = true;
+	}
+	
+	if(LinkInputs[INPUT_EX4])	
+	{
+		TempInputs[UNPRESS_EX4] = true;
+	}
+	if(TempInputs[UNPRESS_EX4] == true && LinkInputs[INPUT_EX4] == false)
+	{
+		TempInputs[UNPRESS_EX4] = false;
+		LinkInputs[UNPRESS_EX4] = true;
+	}
+	
+	
+	// Start/Map inputs.
+	LinkInputs[INPUT_START]		= 	Link->InputStart;
+	LinkInputs[INPUT_MAP]		= 	Link->InputMap;
+	
+	LinkInputs[PRESS_START] 	=	Link->PressStart;
+	LinkInputs[PRESS_MAP]		= 	Link->PressMap;
+	
+	if(LinkInputs[INPUT_START])	
+	{
+		TempInputs[UNPRESS_START] = true;
+	}
+	if(TempInputs[UNPRESS_START] == true && LinkInputs[INPUT_START] == false)
+	{
+		TempInputs[UNPRESS_START] = false;
+		LinkInputs[UNPRESS_START] = true;
+	}
+	
+	if(LinkInputs[INPUT_MAP])	
+	{
+		TempInputs[UNPRESS_MAP] = true;
+	}
+	if(TempInputs[UNPRESS_MAP] == true && LinkInputs[INPUT_MAP] == false)
+	{
+		TempInputs[UNPRESS_MAP] = false;
+		LinkInputs[UNPRESS_MAP] = true;
+	}
+	
+	
+	// Left/Right/Middle inputs.
+	LinkInputs[INPUT_LEFTMOUSE]		= 	Link->InputMouseB & MB_LEFTCLICK;
+	LinkInputs[INPUT_RIGHTMOUSE]		= 	Link->InputMouseB & MB_RIGHTCLICK;
+	LinkInputs[INPUT_MIDDLEMOUSE] 	= 	Link->InputMouseB & MB_MIDDLECLICK;
+	
+	
+	LinkInputs[PRESS_LEFTMOUSE] 	= 	false;
+	LinkInputs[PRESS_RIGHTMOUSE] 	= 	false;
+	LinkInputs[PRESS_MIDDLEMOUSE] = 	false;
+	
+
+	if(LinkInputs[INPUT_LEFTMOUSE] && TempInputs[PRESS_LEFTMOUSE] == false)
+	{
+		LinkInputs[PRESS_LEFTMOUSE] = true;
+		TempInputs[PRESS_LEFTMOUSE] = true;
+	}
+	if(LinkInputs[INPUT_LEFTMOUSE] == false && TempInputs[PRESS_LEFTMOUSE] == true)
+	{
+		LinkInputs[PRESS_LEFTMOUSE] = false;
+		TempInputs[PRESS_LEFTMOUSE] = false;
+	}
+	
+	if(LinkInputs[INPUT_RIGHTMOUSE] && TempInputs[PRESS_RIGHTMOUSE] == false)
+	{
+		LinkInputs[PRESS_RIGHTMOUSE] = true;
+		TempInputs[PRESS_RIGHTMOUSE] = true;
+	}
+	if(LinkInputs[INPUT_RIGHTMOUSE] == false && TempInputs[PRESS_RIGHTMOUSE] == true)
+	{
+		LinkInputs[PRESS_RIGHTMOUSE] = false;
+		TempInputs[PRESS_RIGHTMOUSE] = false;
+	}	
+	
+	if(LinkInputs[INPUT_MIDDLEMOUSE] && TempInputs[PRESS_MIDDLEMOUSE] == false)
+	{
+		LinkInputs[PRESS_MIDDLEMOUSE] = true;
+		TempInputs[PRESS_MIDDLEMOUSE] = true;
+	}
+	if(LinkInputs[INPUT_MIDDLEMOUSE] == false && TempInputs[PRESS_MIDDLEMOUSE] == true)
+	{
+		LinkInputs[PRESS_MIDDLEMOUSE] = false;
+		TempInputs[PRESS_MIDDLEMOUSE] = false;
+	}	
+	
+	if(LinkInputs[INPUT_LEFTMOUSE])	
+	{
+		TempInputs[UNPRESS_LEFTMOUSE] = true;
+	}
+	if(TempInputs[UNPRESS_LEFTMOUSE] == true && LinkInputs[INPUT_LEFTMOUSE] == false)
+	{
+		TempInputs[UNPRESS_LEFTMOUSE] = false;
+		LinkInputs[UNPRESS_LEFTMOUSE] = true;
+	}
+	
+	if(LinkInputs[INPUT_RIGHTMOUSE])	
+	{
+		TempInputs[UNPRESS_RIGHTMOUSE] = true;
+	}
+	if(TempInputs[UNPRESS_RIGHTMOUSE] == true && LinkInputs[INPUT_RIGHTMOUSE] == false)
+	{
+		TempInputs[UNPRESS_RIGHTMOUSE] = false;
+		LinkInputs[UNPRESS_RIGHTMOUSE] = true;
+	}
+	
+	if(LinkInputs[INPUT_MIDDLEMOUSE])
+	{
+		TempInputs[UNPRESS_MIDDLEMOUSE] = true;
+	}
+	if(TempInputs[UNPRESS_MIDDLEMOUSE] == true && LinkInputs[INPUT_MIDDLEMOUSE] == false)
+	{
+		TempInputs[UNPRESS_MIDDLEMOUSE] = false;
+		LinkInputs[UNPRESS_MIDDLEMOUSE] = true;
+	}
+	
+	
+	// Left/Right/Middle Scroll inputs.
+	if(Link->InputMouseZ > 0) 	LinkInputs[INPUT_SCROLL_UP]		= true;
+	else 						LinkInputs[INPUT_SCROLL_UP]	 	= false;
+	if(Link->InputMouseZ < 0) 	LinkInputs[INPUT_SCROLL_DOWN]	= true;
+	else 						LinkInputs[INPUT_SCROLL_DOWN]	= false;
+	if(Link->InputMouseZ == 0) 	LinkInputs[INPUT_SCROLL_NONE] 	= true;
+	else 						LinkInputs[INPUT_SCROLL_NONE] 	= false;
+	
+	
+	LinkInputs[PRESS_SCROLL_UP] 	= 	false;
+	LinkInputs[PRESS_SCROLL_DOWN] = 	false;
+	LinkInputs[PRESS_SCROLL_NONE] = 	false;
+	
+	
+	if(LinkInputs[INPUT_SCROLL_UP] && TempInputs[PRESS_SCROLL_UP] == false)
+	{
+		LinkInputs[PRESS_SCROLL_UP] = true;
+		TempInputs[PRESS_SCROLL_UP] = true;
+	}
+	if(LinkInputs[INPUT_SCROLL_UP] == false && TempInputs[PRESS_SCROLL_UP] == true)
+	{
+		LinkInputs[PRESS_SCROLL_UP] = false;
+		TempInputs[PRESS_SCROLL_UP] = false;
+	}
+	
+	if(LinkInputs[INPUT_SCROLL_DOWN] && TempInputs[PRESS_SCROLL_DOWN] == false)
+	{
+		LinkInputs[PRESS_SCROLL_DOWN] = true;
+		TempInputs[PRESS_SCROLL_DOWN] = true;
+	}
+	if(LinkInputs[INPUT_SCROLL_DOWN] == false && TempInputs[PRESS_SCROLL_DOWN] == true)
+	{
+		LinkInputs[PRESS_SCROLL_DOWN] = false;
+		TempInputs[PRESS_SCROLL_DOWN] = false;
+	}
+	
+	if(LinkInputs[INPUT_SCROLL_NONE] && TempInputs[PRESS_SCROLL_NONE] == false)
+	{
+		LinkInputs[PRESS_SCROLL_NONE] = true;
+		TempInputs[PRESS_SCROLL_NONE] = true;
+	}
+	if(LinkInputs[INPUT_SCROLL_NONE] == false && TempInputs[PRESS_SCROLL_NONE] == true)
+	{
+		LinkInputs[PRESS_SCROLL_NONE] = false;
+		TempInputs[PRESS_SCROLL_NONE] = false;
+	}
+	
+	if(LinkInputs[INPUT_SCROLL_UP])	
+	{
+		TempInputs[UNPRESS_SCROLL_UP] = true;
+	}
+	if(TempInputs[UNPRESS_SCROLL_UP] == true && LinkInputs[INPUT_SCROLL_UP] == false)
+	{
+		TempInputs[UNPRESS_SCROLL_UP] = false;
+		LinkInputs[UNPRESS_SCROLL_UP] = true;
+	}
+	
+	if(LinkInputs[INPUT_SCROLL_DOWN])	
+	{
+		TempInputs[UNPRESS_SCROLL_DOWN] = true;
+	}
+	if(TempInputs[UNPRESS_SCROLL_DOWN] == true && LinkInputs[INPUT_SCROLL_DOWN] == false)
+	{
+		TempInputs[UNPRESS_SCROLL_DOWN] = false;
+		LinkInputs[UNPRESS_SCROLL_DOWN] = true;
+	}
+	
+	if(LinkInputs[INPUT_SCROLL_NONE])
+	{
+		TempInputs[UNPRESS_SCROLL_NONE] = true;
+	}
+	if(TempInputs[UNPRESS_SCROLL_NONE] == true && LinkInputs[INPUT_SCROLL_NONE] == false)
+	{
+		TempInputs[UNPRESS_SCROLL_NONE] = false;
+		LinkInputs[UNPRESS_SCROLL_NONE] = true;
+	}
+}
+
+void ResetInputs()
+{
+	Link->InputUp = LinkInputs[INPUT_UP];
+	Link->InputDown = LinkInputs[INPUT_DOWN];
+	Link->InputLeft = LinkInputs[INPUT_LEFT];
+	Link->InputRight = LinkInputs[INPUT_RIGHT];
+	
+	Link->PressUp = LinkInputs[PRESS_UP];
+	Link->PressDown = LinkInputs[PRESS_DOWN];
+	Link->PressLeft = LinkInputs[PRESS_LEFT];
+	Link->PressRight = LinkInputs[PRESS_RIGHT];
+	
+	Link->InputAxisUp = LinkInputs[INPUT_AXIS_UP];
+	Link->InputAxisDown = LinkInputs[INPUT_AXIS_DOWN];
+	Link->InputAxisLeft = LinkInputs[INPUT_AXIS_LEFT];
+	Link->InputAxisRight = LinkInputs[INPUT_AXIS_RIGHT];
+	
+	Link->PressAxisUp = LinkInputs[PRESS_AXIS_UP];
+	Link->PressAxisDown = LinkInputs[PRESS_AXIS_DOWN];
+	Link->PressAxisLeft = LinkInputs[PRESS_AXIS_LEFT];
+	Link->PressAxisRight = LinkInputs[PRESS_AXIS_RIGHT];
+	
+	Link->InputA = LinkInputs[INPUT_A];
+	Link->InputB = LinkInputs[INPUT_B];
+	Link->InputL = LinkInputs[INPUT_L];
+	Link->InputR = LinkInputs[INPUT_R];
+	
+	Link->PressA = LinkInputs[PRESS_A];
+	Link->PressB = LinkInputs[PRESS_B];
+	Link->PressL = LinkInputs[PRESS_L];
+	Link->PressR = LinkInputs[PRESS_R];
+	
+	Link->InputEx1 = LinkInputs[INPUT_EX1];
+	Link->InputEx2 = LinkInputs[INPUT_EX2];
+	Link->InputEx3 = LinkInputs[INPUT_EX3];
+	Link->InputEx4 = LinkInputs[INPUT_EX4];
+	
+	Link->PressEx1 = LinkInputs[PRESS_EX1];
+	Link->PressEx2 = LinkInputs[PRESS_EX2];
+	Link->PressEx3 = LinkInputs[PRESS_EX3];
+	Link->PressEx4 = LinkInputs[PRESS_EX4];
+	
+	Link->InputStart = LinkInputs[INPUT_START];
+	Link->InputMap = LinkInputs[INPUT_MAP];
+	
+	Link->PressStart = LinkInputs[PRESS_START];
+	Link->PressMap = LinkInputs[PRESS_MAP];
+	
+	Link->InputMouseZ = BooleanToFloat(LinkInputs[INPUT_SCROLL_UP]);
+	Link->InputMouseZ = BooleanToFloat(LinkInputs[INPUT_SCROLL_DOWN]);
+	Link->InputMouseZ = BooleanToFloat(LinkInputs[INPUT_SCROLL_NONE]);
+}
+
+global script GlobalScript
+{
+	void run()
+	{
+		Game->ClickToFreezeEnabled = false;
+		
+		while(true)
+		{
+			SetInputs();
+			
+			ResetInputs();
+			Waitframe();
+		}
+	}
+}
+
+// Returns an input constant's value (againt the LinkInputs[] array) but doesn't let it be set. Useful for things like scripted menus.
+// bool CheckNoSet(int InputConst)
+// {
+	// bool TempInput;
+	// TempInput = LinkInputs[InputConst];
+	
+// }
+
+float BooleanToFloat(bool State)
+{
+	if(State == true)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+void QuickCircle(int x, int y, int radius)
+{
+	Screen->Circle(7, x, y, radius, 0x01, 1, 0, 0, 0, true, OP_TRANS);
+}

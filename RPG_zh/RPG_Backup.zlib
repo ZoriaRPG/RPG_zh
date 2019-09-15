@@ -1,7 +1,7 @@
 //Version 0.5.6 for RPG.zh 0.9.6.1
 //Backup Arrays
 
-const int GAMESAVESTATED = 498;
+//const int GAMESAVESTATED = 899;
 
 bool GameSaveStated(){
 	return GameEvents[GAMESAVESTATED];
@@ -297,8 +297,8 @@ void RestoreTeleportMatrixArrays(){
 	}
 }
 
-int GameDynamics_BAK[8192]={0};
-bool GameEvents_BAK[8192]={false};
+int GameDynamics_BAK[32768]={0};
+bool GameEvents_BAK[32768]={false};
 
 int Counters_BAK[32]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -369,6 +369,7 @@ void RestoreEquipmentArrays(){
 void SaveState(){
 	//FreezeAction();
 	GameSaveStated(true);
+	BackupCheat();
 	BackupEquipment();
 	BackupGameArrays();
 	BackupEquipmentArrays();
@@ -395,6 +396,7 @@ void RestoreState(){
 	RestoreMCounters();
 	RestoreCounters();
 	RestoreTeleportMatrixArrays();
+	RestoreCheat();
 	//GameSaveStated(true);
 	//Restore stat arrays, and other arrays.
 	//Remove all screen NPCs.
@@ -476,4 +478,14 @@ void DoEquipmentBackup(){
 		}
 		Waitframe();
 	}
+}
+
+void BackupCheat(){
+	int cheatlevel = Game->Cheat;
+	GameDynamics[CHEATLEVEL] = cheatlevel;
+}
+
+void RestoreCheat(){
+	int cheatlevel = GameDynamics[CHEATLEVEL];
+	Game->Cheat = cheatlevel;
 }

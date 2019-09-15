@@ -1,0 +1,84 @@
+//Non-Ghosted General Splitting Enemies
+
+//npc->Misc indices
+const int NPC_MISC_SPLIT_DEATH = 10;
+const int NPC_MISC_SPLIT_ON_HIT = 9;
+    //This should be moved into one value, decimal, such as 107.216 for hit into 107 and death into 216
+const int NPC_MISC_LAST_HP = 8;
+const int NPC_SPLIT_INTO_NUMBER_OF_FOES = 7; //How many will be spawned. 
+    //This needs to be decimal such as 3.2 for 3 on hit, 2 on death.
+
+const int SPLIT_NEW_RAND_DIST = 10;
+
+ffc script SplitOnDeath(int enemID, int splits_into_hit, splits_into_death){
+    for ( int q = 1; q <= Screen->NumNPCs(); q++ ) {
+        npc n = Screen->LoadNPC(q);
+        if ( n->ID == enemID && !(n->Misc[NPC_MISC_SPLIT_ON_HIT]) && splits_into_hit )
+            n->Misc[NPC_MISC_SPLIT_ON_HIT ] = plits_into_hit;
+        if ( n->ID == enemID && !(n->Misc[NPC_MISC_SPLIT_DEATH]) && splits_into_death )
+            n->Misc[NPC_MISC_SPLIT_DEATH] = splits_into_death;
+    }
+}
+
+    
+void SplitOnHit(npc n, bool useZaxis){
+    int nx = n->X;
+    int ny = n->Y;
+    int nz = n->Z;
+    for ( int q = 0; q < 2; q++ ) {
+        npc a = Screen->CreateNPC(n->Misc[NPC_MISC_SPLIT_ON_HIT]);
+        a->X = nx + Rand(SPLIT_NEW_RAND_DIST);
+        a->Y = ny + Rand(SPLIT_NEW_RAND_DIST);
+        if ( useZaxis ) a->Z = n->Z + Rand(SPLIT_NEW_RAND_DIST);
+    }
+    remove(n);
+}
+        
+void SplitOnDeath(int x, int y, int z, int into_npcs, bool useZaxis){
+    for ( int q = 0; q < 2; q++ ) {
+        npc a = Screen->CreateNPC(into_npcs);
+        a->X = x + Rand(SPLIT_NEW_RAND_DIST);
+        a->Y = y + Rand(SPLIT_NEW_RAND_DIST);
+        if ( useZaxis ) a->Z = z + Rand(SPLIT_NEW_RAND_DIST);
+    }
+
+void RunSplitingEnemies(){
+    for ( int q = 1; q <= Screen->NPCs(); q++ ) {
+        npc n = Screen->LoadNPC(q);
+        if ( n->Misc[NPC_MISC_LAST_HP] && ( n->HP < n->Misc[NPC_MISC_LAST_HP] && n->HP > 0 ) ) {
+            //enemy was damaged
+            SplitOnHit(n, false);
+        }
+        if ( n->Misc[NPC_MISC_LAST_HP] && n->HP <= 0 ) { //Enemy was killed this frame
+            int nx = n->X;
+            int ny = n->Y;
+            int nz = n->Z;
+            int splitto = n->Misc[NPC_MISC_SPLIT_DEATH];
+            SplitOnDeath(nx, ny, nz, splitto, false);
+        }
+        if ( (!n->Misc[NPC_MISC_LAST_HP] ) ) n->Misc[NPC_MISC_LAST_HP] = n->HP;
+    }
+}
+
+global script split{
+    void run(){
+        while(true){
+            RunSplitingEnemies();
+            Waitdraw();
+            Waitframe();
+        }
+    }
+}
+
+void SetEnemySplitAttribs(npc n){
+    //Read the npc->Type
+    //Choose an attribute that is free for that typeof npc, not
+    //  used by editor values
+    //read the type to set the split into
+    //if split into is > 0, set that in the misc index splitondeath
+    //if split into is < 0 set that in the misc index splitondeath
+    //unless we can safely have three values for each enemy type
+    //then use one for each ondeath and onhit
+    //try to find an attrib for number to split into
+    //mark all those indices.
+}

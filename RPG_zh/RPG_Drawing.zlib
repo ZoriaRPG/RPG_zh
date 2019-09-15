@@ -21,3 +21,6 @@ void DrawScreenToLayer(int sourceMap, int sourceScreen, int layerMin, int layerM
 	}
 }
 
+
+
+//import "RPG_Drawing_Ext.zlib"

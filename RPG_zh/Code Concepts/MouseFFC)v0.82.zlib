@@ -1,0 +1,245 @@
+//! MouseOver Model to enable scripts in ffcs, or disable them, by clicking on the ffc.
+//! v0.8 by ZoriaRPG
+//! 4th February, 2016
+
+const int FFC_SCRIPT_LIST_DISALLOW = 0; //Set to 1 if the list of ffc scripts in the array 
+                                        //FFScriptsAllowDisable[] is a list that may NOT be
+                                        //disabled. Setting this inverts the operation of 
+                                        //funmctions that call on this array.
+
+//Global Arrays
+
+int FFCsRunningScripts[33]; //Stores if the script for a given ffc should be active.
+int GlobalRAM[214747]; //Holds global variable datum.
+
+int FFScriptsAllowDisable[]={1};//Populate with FFC Script Slot IDs that the user may disable,
+
+//Global RAM indices.
+const int GR_MAIN           = 0; //;Dictates if the main loop should run.
+const int GR_SCREENSHANGED  = 1; //Screen, DMap, and Map changes.
+const int GR_LASTSCREEN     = 2;
+const int GR_DMAPCHANGED    = 3;
+const int GR_LASTDMAP       = 4;
+const int GR_MAPCHANGED     = 5;
+const int GR_LASTMAP        = 6;
+
+
+/// Global functions
+
+//! Functions for GlobalRAM[]
+
+//Returns the value of an index, call as: GRAM(CONSTANT);
+int GRAM(int index){
+    return GlobalRAM[index];
+}
+
+//Sets a value in the GlobalRAM[] array. Use as: GRAM(CONSTANT,value);
+void GRAM(int index, int val){
+    GlobalRAM[index] = val;
+}
+
+
+//! Functions for checking screen and DMap changes.
+
+//Returns if the screen has changed, and stores the values as an update at at one time.
+bool ScreenChanged(){
+    if ( Game->GetCurScreen() != GRAM(GR_LASTSCREEN) ) {
+        GRAM(GR_LASTSCREEN, Game->GetCurScreen());
+        GRAM(GR_SCREENCHANGED,1);
+        return true;
+    }
+    else {
+        GRAM(GR_SCREENCHANGED,0);
+        return false;
+    }
+}
+
+//Returns if the DMap has changed, and stores the values as an update at at one time.
+bool DMapChanged(){
+    if ( Game->GetCurDMap() != GRAM(GR_LASTDMAP) ) {
+        GRAM(GR_LASTDMAP, Game->GetCurDMap());
+        GRAM(GR_DMAPCHANGED,1);
+        return true;
+    }
+    else {
+        GRAM(GR_DMAPCHANGED,0);
+        return false;
+    }
+}
+
+//Returns if the Map (NOT DMap!) has changed, and stores the values as an update at at one time.
+bool MapChanged(){
+    if ( Game->GetCurMap() != GRAM(GR_LASTMAP) ) {
+        GRAM(GR_LASTMAP, Game->GetCurMap());
+        GRAM(GR_MAPCHANGED,1);
+        return true;
+    }
+    else {
+        GRAM(GR_MAPCHANGED,0);
+        return false;
+    }
+}
+
+
+//! Functions related to mouseovers.
+
+//Updates the coordinates of the global lweapon to match the mouse, and keeps them alive.
+//Call early ( and before Waitdraw ) in the main loop of your global active script, 
+//before the other related functions in this sub-header.
+void MouseOvers(lweapon l){
+    if ( !l->IsValid() ) {
+        l = Screen->CreateLWeapon(LW_SCRIPT10);
+    }
+    l->X = Link->InputMouseX;
+    l->Y = Link->InputMouseY;
+}
+
+//Clears running ffc scripts if the screen changes.
+//If you need scripts running from ffcs to carry over, this becomes trickier, and you
+//will need a different function set.
+//Call after MouseOvers() , but before Waitdraw() in your global active script.
+void UpdateMouseFFCs(){
+    if ( ScreenChanged() || DmapChanged() ) {
+        for ( int q = 1; q <= SizeOfArray(FFCsRunningScripts); q++ ){
+            FFCsRunningScripts[q] = 0;
+        }
+    }
+}
+
+
+//Enables the array index that dictates if a script in an ffc (based on its screen index)
+//should run, when a button of the mouse is clicked.
+//If you want to segregate left/right clicks, this function will need revision.
+//Call after UpdateMouseFFCs(), but before Waitdraw() in your global active script.
+void MouseFFC(lweapon l){
+    for ( int q = 1; q <= 32; q++ ) {
+        ffc f = Screen->LoadFFC(q);
+        if ( Collision(l,f) && Link->InputMouseB ) {
+            if ( !FFCsRunningScripts[q] ) FFCsRunningScripts[q] = 1;
+            else FFCsRunningScripts[q] = 0;
+        }
+    }
+
+
+//Enables the array index that dictates if a script in an ffc (based on its screen index)
+//should run, when a button of the mouse is clicked.
+//If you want to segregate left/right clicks, this function will need revision.
+//Call after UpdateMouseFFCs(), but before Waitdraw() in your global active script.
+void MouseFFC(lweapon l){
+    for ( int q = 1; q <= 32; q++ ) {
+        ffc f = Screen->LoadFFC(q);
+        if ( Collision(l,f) && Link->InputMouseB ) {
+            if ( !FFCsRunningScripts[q] ) FFCsRunningScripts[q] = f->Script;
+            else {
+            if ( ( !FFC_SCRIPT_LIST_DISALLOW && CanDisableFFScript(f->Script,FFScriptsAllowDisable) )
+                || ( FFC_SCRIPT_LIST_DISALLOW && !CanDisableFFScript(f->Script,FFScriptsAllowDisable) ) )
+                FFCsRunningScripts[q] = 0;
+        }
+    }
+}
+
+//Enables the array index that dictates if a script in an ffc (based on its screen index)
+//should run, when a button of the mouse is clicked.
+//If you want to segregate left/right clicks, this function will need revision.
+//Call after UpdateMouseFFCs(), but before Waitdraw() in your global active script.
+//Stores the script ID in the array.
+void MouseFFC(lweapon l){
+    for ( int q = 1; q <= 32; q++ ) {
+        ffc f = Screen->LoadFFC(q);
+        if ( Collision(l,f) && Link->InputMouseB ) {
+            if ( !FFCsRunningScripts[q] ) FFCsRunningScripts[q] = f->Script;
+            else FFCsRunningScripts[q] = 0;
+        }
+    }
+}
+
+bool CanDisableFFScript(int script, int arr){
+    for ( int q = 0 q <= SizeOfArray(arr); q++ ) {
+        if ( FFScriptsAllowDisable[q] == script ) return true;
+    }
+    return false;
+}
+
+int GetFFScript(int index){
+}
+
+int GetRunningFFScipt(int index){ return FFCsRunningScripts[index];}
+
+//Enables the array index that dictates if a script in an ffc (based on its screen index)
+//should run, when a button of the mouse is clicked.
+//If you want to segregate left/right clicks, this function will need revision.
+//Call after UpdateMouseFFCs(), but before Waitdraw() in your global active script.
+//Stores the script ID in the array.
+//Does not allow disabling by default. Set 'unset' true to allow click to disable.
+o
+void MouseFFC(lweapon l, bool unset){
+    for ( int q = 1; q <= 32; q++ ) {
+        ffc f = Screen->LoadFFC(q);
+        if ( Collision(l,f) && Link->InputMouseB ) {
+            if ( !FFCsRunningScripts[q] ) FFCsRunningScripts[q] = f->Script;
+            if ( FFCsRunningScripts[q] && unset ) FFCsRunningScripts[q] = 0;
+        }
+    }
+}
+
+//! Check FFC indices.
+
+//Tries to learn the index ID of a screen FFC based on some of its values.
+int WhatFFCIsThis(int ffscript, int ffx, int ffy, int ffdata){
+    for ( int q = 1; q <= 32; q++ ) {
+        ffc what = Screen->LoadFFC(q);
+        if ( what->X == ffx && what->Y == ffy && what->Script == ffscript && what->Data == ffdata) return q;
+    }
+    return 0;
+}
+
+//Attempts to return the index of a screen ffc by direct comparison. If this works, 
+//then you could probably skip using a function for it. 
+int WhatFFCIsThis(ffc fw){
+    for ( int q = 1; q <= 32; q++ ) {
+        ffc what = Screen->LoadFFC(q);
+        if ( fw == what ) return q;
+    }
+    return 0;
+}
+
+//Example global active script.
+
+global script active_example_mouseovers{
+    void run() {
+        main(true); //Enable the main loop.
+        lweapon mouse; //Create an lweapon at the scope of the global active script.
+                    //if this doesn't work, then we will need to create and destory it every frame.
+        while( main() ) {       //! I do this, instead of while(true) to allow suspending it, 
+                                //! and changing to an alternate global loop, as an option.
+            
+            if ( ClickToFreezeEnabled ) ClickToFreezeEnabled = false;
+            MouseOvers(mouse); //Do mouseover-related things.
+            UpdateMouseFFCs();
+            MouseFFC(mouse);        
+            Waitdraw();
+            //if ( mouse0>IsValid() ) Remove(mouse); //A precaution that we likely don't need.
+            Waitframe();
+        }
+        if ( !CickToFreezeEnabled ) ClickToFreezeEnabled = true;
+    }
+    int main() { return GRAM(GR_MAIN); }
+
+    void main(bool enabled) {
+        if ( enabled ) GRAM(GR_MAIN,1);
+        else GRAM(GR_MAIN,0);
+    }
+}
+
+
+
+//Call in ffc script as: WaitForMouse(this);
+
+//Waits until a mouseover click enables the script for this ffc.
+void WaitForMouse(ffc thisff){
+    while ( !FFCsRunningScripts[WhatFFCIsThis(thisff->Script, thisff->X, thisff->Y, thisff->Data)] ) Waitframe();
+}
+
+
+            
+ 
